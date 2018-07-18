@@ -14,8 +14,7 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
 
-cv2.imshow("omer",thn)
-cv2.waitKey(0)
+
 
 
 
@@ -23,12 +22,12 @@ cv2.waitKey(0)
 
 
 def komsuluk(x,y,end,backP,img):
-    i, j = x, y
+    i, j = y,x
     state = True
     dugum = []
-    backPath = []
+    backPath = backP
 
-    dizi= [[0,0]]  # burada hata olabilir...  burada başlangıcı belirledik  ----> Hacı burada boş küme ile başlattım. return evresinden önce o elemanı silmelisin
+    dizi= [[0,0],[0,0]]  # burada hata olabilir...  burada en son 3 eleman eklemede sıkıntı çıkarıyor ondan böyle 2 tane 0-0 dizisi atadın  ----> Hacı burada boş küme ile başlattım. return evresinden önce o elemanı silmelisin
     deg = 0
     dogruYol = 0
 
@@ -75,9 +74,12 @@ def komsuluk(x,y,end,backP,img):
 
         if (len(yon) > 1):# dugum içini başka bir değişkene ata sebebi bu şekilde dugum her zaman 0 büyük oluyor. !!!!DİKKAT ETMELİSİN!!!!!!!!!
 
+            dizi.pop(0)
+            dizi.pop(0)
+
             dugum = dugumNoktalari(i, j, yon)
-            dizi.append(i,j)
-            backPath.append([dizi - 1, dugum -2 , dugum - 1 ])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
+            dizi.append([i,j])
+            backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
 
 
             for i in range(len(dugum)):
@@ -115,16 +117,16 @@ def komsuluk(x,y,end,backP,img):
 
 
         else:  # yon ==1 ise diye de koşul koyabilirsin
-
+            #dizi == path
             dizi.append([i,j])
 
             interim = dugumNoktalari(i, j, yon)  #x,ydi değiştirdim i,j ile hata yapmış olabilirim...
 
             i,j = interim[0][0],interim[0][1] # sebebi dizi içinde dizi döndermesidir.
 
-            backPath.append([dizi-1,dizi-2,dizi-3])
+            backPath.append([dizi[-1],dizi[-2],dizi[-3]])
 
-
+    dizi.pop(0)
     dizi.pop(0)
     return dizi,dugum , dogruYol
 
@@ -135,12 +137,12 @@ def komsuluk(x,y,end,backP,img):
 
 
 
-def dugumNoktalari(x,y,dugum):
+def dugumNoktalari(x1,y1,dugum):
 
 
     deger = []
     for i in dugum:
-
+        x,y = x1,y1
         if (i == 0):
 
             x, y = x, y + 1
@@ -185,4 +187,70 @@ def dugumNoktalari(x,y,dugum):
     return deger
 
 
-komsuluk()
+
+
+
+def dugumFiltre(i,j,dugum,img):
+
+
+    dizi = []
+
+    kopru = 0
+
+
+
+    for i in dugum:
+
+        for j in dugum:
+
+            res = i[0] - j[0]
+
+            res2 = i[1] - j[1]
+
+            if(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
+
+                dizi = dugum
+
+                kopru = 1
+
+                break
+
+        if(kopru == 1):
+
+            break
+
+    if(kopru == 0):
+
+        for i in dugum:
+
+
+            if([[i],[j + 1]] == i):
+
+
+                dizi.append(i)
+
+            elif([[i + 1],[j]] == i):
+
+                dizi.append(i)
+
+
+            elif ([[i], [j - 1]] == i):
+
+                dizi.append(i)
+
+            elif ([[i -1], [j]] == i):
+
+                dizi.append(i)
+
+
+    return dizi
+
+
+
+
+x,y,z = komsuluk(2,4,[[40,28]],[[[3,1]]],thn)
+
+print("path:", x)
+print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
+print("dugumler : " , y)
+print("point : " ,z)
