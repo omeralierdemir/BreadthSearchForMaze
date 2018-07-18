@@ -21,7 +21,7 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
 
-def komsuluk(x,y,end,backP,img):
+def komsuluk(x,y,end,backP,img):  # unutma i == y ekseni  j == x ekseni
     i, j = y,x
     state = True
     dugum = []
@@ -74,21 +74,48 @@ def komsuluk(x,y,end,backP,img):
 
         if (len(yon) > 1):# dugum içini başka bir değişkene ata sebebi bu şekilde dugum her zaman 0 büyük oluyor. !!!!DİKKAT ETMELİSİN!!!!!!!!!
 
-            dizi.pop(0)
-            dizi.pop(0)
+
+            dizi.append([i, j])
+
+
 
             dugum = dugumNoktalari(i, j, yon)
-            dizi.append([i,j])
-            backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
 
 
-            for i in range(len(dugum)):
 
-                dugum[i].extend(dizi)  #append olabilir
+            filtreDugum = dugumFiltre(i,j,dugum)
+
+            if(len(filtreDugum) > 1):
+
+                dizi.pop(0)
+                dizi.pop(0)
+
+                for i in range(len(dugum)):
 
 
-          # buradaki amacımız  [[dugum1],[dugum2],[yol dizisi]] burada yol dizisinin son elemaın dugumun başlangıc noktasındaki pikselin bir önceki pikselidir"""
-            break
+
+                    dugum[i].extend(dizi)  # append olabilir
+
+
+                # buradaki amacımız  [[dugum1],[dugum2],[yol dizisi]] burada yol dizisinin son elemaın dugumun başlangıc noktasındaki pikselin bir önceki pikselidir"""
+                backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
+                backPath.extend([i for i in filtreDugum])
+
+
+                break  # ana döngüye ait break
+
+            else:
+
+                # dizi.append(filtreDugum[0])  # append olabilir hacı dikkat   # hacı burada ekleme yapmaya gerek yok sadece ive j nin yeni konumunu ayarlaman yeterlidir.
+                i,j = filtreDugum[0]
+                backPath.append([dizi[-1], dizi[-2], dizi[-3]])
+
+
+
+
+
+
+
 
 
 
@@ -126,8 +153,8 @@ def komsuluk(x,y,end,backP,img):
 
             backPath.append([dizi[-1],dizi[-2],dizi[-3]])
 
-    dizi.pop(0)
-    dizi.pop(0)
+    #dizi.pop(0)
+    #dizi.pop(0)   bunları diğer durumlar içinde yazabilirsin düğümler yoksa diye
     return dizi,dugum , dogruYol
 
 
@@ -190,7 +217,7 @@ def dugumNoktalari(x1,y1,dugum):
 
 
 
-def dugumFiltre(i,j,dugum,img):
+def dugumFiltre(i1,j1,dugum,img=None):
 
 
     dizi = []
@@ -203,9 +230,9 @@ def dugumFiltre(i,j,dugum,img):
 
         for j in dugum:
 
-            res = i[0] - j[0]
+            res = abs(i[0] - j[0])
 
-            res2 = i[1] - j[1]
+            res2 = abs(i[1] - j[1])
 
             if(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
 
@@ -221,26 +248,29 @@ def dugumFiltre(i,j,dugum,img):
 
     if(kopru == 0):
 
-        for i in dugum:
+        for n in dugum:
+
+            if ([i1, j1 + 1] == n):  # ----> 0
+
+                dizi.append(n)
 
 
-            if([[i],[j + 1]] == i):
 
 
-                dizi.append(i)
-
-            elif([[i + 1],[j]] == i):
-
-                dizi.append(i)
 
 
-            elif ([[i], [j - 1]] == i):
+            elif([i1 + 1,j1] == n):  # ----> 2
 
-                dizi.append(i)
+                dizi.append(n)
 
-            elif ([[i -1], [j]] == i):
 
-                dizi.append(i)
+            elif ([i1, j1 - 1] == n): # ----> 4
+
+                dizi.append(n)
+
+            elif ([i1 -1, j1] == n):  # ----> 6
+
+                dizi.append(n)
 
 
     return dizi
