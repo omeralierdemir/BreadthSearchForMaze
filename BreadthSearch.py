@@ -39,8 +39,17 @@ def birlestir(dizi,katman):
 
 
 
-def sıralıSonuc(x,y,a,b,img):
 
+
+
+
+
+
+
+
+def sıralıSonuc(x,y,a,b,img): # ab bitiş noktalrı arguman uyuşmazlığı var kontrol et
+
+    kopruler = []
     dizi=[[x,y]]   #iç içe dizilerin mantığını kontrol et  [[x,y,0]] yapman gerekebilir diğer alternatif [[x,y]]
     sayac = []
     katman = []
@@ -48,13 +57,45 @@ def sıralıSonuc(x,y,a,b,img):
 
         dizi,path,checkP = sıralıArama(dizi,a,b,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır.
 
-        sayac.extend(dizi) # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+        for i in dizi:
+            kopruler.append([i[0], i[1]])
+
+        if ([0,0] in kopruler):
+
+
+
+
+        elif([-1,-1] in kopruler):
+
+
+
+        else:
+
+
+
+            sayac.extend(dizi) # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+
+
 
         katman.append(dizi)
         if (checkP == 1):
             break
 
     birlestir(dizi,katman)
+
+
+
+
+
+
+
+
+
+
+
+
 
 def sıralıArama(dugumSa, a, b, img):  # dizi döndörme arguman olarak sıkıntı olabilir pythonda
     dugumler = []

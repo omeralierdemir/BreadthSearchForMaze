@@ -15,13 +15,22 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
 
+# bu metodun amacı dugumlerin yanına ek olarak elenmiş olan path ile birlikte tüm dügümleri tek dizide toplamaktır. path döndermek gerekesiz olabilir ilerleyen zamanlarda temizlemelisin
+def sıralıArama(dugumSa, a, b, img):  # dizi döndörme arguman olarak sıkıntı olabilir pythonda
+    dugumler = []
+    for i in dugumSa:
+
+
+        dugum,path, checkP = komsuluk(i[0], i[1], a, b, img)     # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
+        dugumler.extend(dugum)  # append de olabilir.
+
+    return dugumler ,path,checkP     # path i döndürmek sıkıntılı olabiblir
 
 
 
 
 
-
-def komsuluk(x,y,end,backP,img):  # unutma i == y ekseni  j == x ekseni
+def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
     i, j = y,x
     state = True
     dugum = []
@@ -123,6 +132,10 @@ def komsuluk(x,y,end,backP,img):  # unutma i == y ekseni  j == x ekseni
         elif (len(yon) <= 0 and [i,j] in end ):# dugum == yon
 
             print("hatalı deger elde edildi...")# burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
+            dizi.append([i, j])
+            dizi.pop(0)
+            dizi.pop(0)
+
             dogruYol = 1
             dugum=[[0,0,dizi]] #şuna bi bak
             break
@@ -132,6 +145,10 @@ def komsuluk(x,y,end,backP,img):  # unutma i == y ekseni  j == x ekseni
 
 
         elif (len(yon) <= 0 and [i,j] not  in  end ):
+
+            dizi.append([i, j])
+            dizi.pop(0)
+            dizi.pop(0)
 
 
             dugum = [[-1,-1,dizi]]
@@ -278,9 +295,14 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
 
 
-x,y,z = komsuluk(2,4,[[40,28]],[[[3,1]]],thn)
+x,y,z = komsuluk(113,53,[[90,103]],[[[113,52]]],thn)
 
 print("path:", x)
-print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
+#print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
+
+print("sadece dugumler : " )
+for i in y:
+    print(i[0],i[1])
+    print()
 print("dugumler : " , y)
 print("point : " ,z)
