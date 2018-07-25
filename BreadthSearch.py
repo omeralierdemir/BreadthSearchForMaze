@@ -57,26 +57,23 @@ def sıralıSonuc(x,y,a,b,img): # ab bitiş noktalrı arguman uyuşmazlığı va
 
         dizi,path,checkP = sıralıArama(dizi,a,b,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır.
 
+        if (len(dizi) == 0 and ([dizi[-1][0], dizi[-1][0]] == [-1, -1])):
 
-        for i in dizi:
-            kopruler.append([i[0], i[1]])
-
-        if ([0,0] in kopruler):
-
-
-
-
-        elif([-1,-1] in kopruler):
+            break # hacı bunu etraflıca düşün
 
 
 
         else:
 
 
+            for i in dizi:
+                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
+
+
+
+
 
             sayac.extend(dizi) # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
-
-
 
 
         katman.append(dizi)
@@ -84,16 +81,6 @@ def sıralıSonuc(x,y,a,b,img): # ab bitiş noktalrı arguman uyuşmazlığı va
             break
 
     birlestir(dizi,katman)
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -106,6 +93,15 @@ def sıralıArama(dugumSa, a, b, img):  # dizi döndörme arguman olarak sıkın
         dugumler.extend(dugum)  # append de olabilir.
 
     return dugumler ,path,checkP     # path i döndürmek sıkıntılı olabiblir
+
+
+
+
+
+
+
+
+
 
 
 def komsuluk(x,y,end,img):

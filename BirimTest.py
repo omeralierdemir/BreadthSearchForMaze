@@ -16,12 +16,12 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
 # bu metodun amacı dugumlerin yanına ek olarak elenmiş olan path ile birlikte tüm dügümleri tek dizide toplamaktır. path döndermek gerekesiz olabilir ilerleyen zamanlarda temizlemelisin
-def sıralıArama(dugumSa, a, b, img):  # dizi döndörme arguman olarak sıkıntı olabilir pythonda
+def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olarak sıkıntı olabilir pythonda
     dugumler = []
     for i in dugumSa:
 
 
-        dugum,path, checkP = komsuluk(i[0], i[1], a, b, img)     # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
+        path,dugum, checkP, backPoint = komsuluk(i[0], i[1], end, backPoint, img)     # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
         dugumler.extend(dugum)  # append de olabilir.
 
     return dugumler ,path,checkP     # path i döndürmek sıkıntılı olabiblir
@@ -34,7 +34,7 @@ def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
     i, j = y,x
     state = True
     dugum = []
-    backPath = backP
+    backPath = backP[:]
 
     dizi= [[0,0],[0,0]]  # burada hata olabilir...  burada en son 3 eleman eklemede sıkıntı çıkarıyor ondan böyle 2 tane 0-0 dizisi atadın  ----> Hacı burada boş küme ile başlattım. return evresinden önce o elemanı silmelisin
     deg = 0
@@ -108,7 +108,7 @@ def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
 
                 # buradaki amacımız  [[dugum1],[dugum2],[yol dizisi]] burada yol dizisinin son elemaın dugumun başlangıc noktasındaki pikselin bir önceki pikselidir"""
                 backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
-                backPath.extend([i for i in filtreDugum])
+                backPath[-1].extend([i for i in filtreDugum])
 
 
                 break  # ana döngüye ait break
@@ -140,7 +140,7 @@ def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
             dugum=[[0,0,dizi]] #şuna bi bak
             break
 
-            #burada path e ekleme yapılması gerekebilir
+
 
 
 
@@ -154,7 +154,7 @@ def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
             dugum = [[-1,-1,dizi]]
             break
 
-            #burada path e ekleme evrim  teorisi ödülyapılması gerekebilir
+
 
 
 
@@ -168,11 +168,14 @@ def komsuluk(y,x,end,backP,img):  # unutma i == y ekseni  j == x ekseni
 
             i,j = interim[0][0],interim[0][1] # sebebi dizi içinde dizi döndermesidir.
 
-            backPath.append([dizi[-1],dizi[-2],dizi[-3]])
+            backPath.append([dizi[-1],dizi[-2],dizi[-3]])# 3 tane eklemene gerek kalmayabilir
 
     #dizi.pop(0)
     #dizi.pop(0)   bunları diğer durumlar içinde yazabilirsin düğümler yoksa diye
-    return dizi,dugum , dogruYol
+
+
+    geriDonus = backPath[-1]
+    return dizi,dugum , dogruYol, geriDonus
 
 
 
@@ -295,7 +298,7 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
 
 
-x,y,z = komsuluk(113,53,[[90,103]],[[[113,52]]],thn)
+x,y,z,a = komsuluk(113,53,[[90,103]],[[[113,52]]],thn)
 
 print("path:", x)
 #print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
@@ -306,3 +309,17 @@ for i in y:
     print()
 print("dugumler : " , y)
 print("point : " ,z)
+
+print("backPoint : " ,a)
+
+
+#a,b,c = sıralıArama([[113,52],[114,51],[114,50]],[[90,103]],[[[41,28]]],thn)
+"""print("path:", b)
+#print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
+
+print("sadece dugumler : " )
+for i in a:
+    print(i[0],i[1])
+    print()
+print("dugumler : " , y)
+print("point : " ,z)"""

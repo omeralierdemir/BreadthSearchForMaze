@@ -1,0 +1,34 @@
+# aga nereden nasıl hangi yönde ilerleyeceğini bulmak lazım
+# yön bilgisi verilmesi gerekiyor düğümler için ve çift düğüm için geçerli olması gerekiyo
+#Başlangıçta default değrler belirlenmeli
+
+
+
+#--------------------------------------------------------------------------------18 temmuz 2018
+
+#hazı if(len(yon)>0) daki pop lar sıkıntı çıkarıyo onlara bak   -----> +-  ----> diğer durumlarıda değerlendir - ------> +
+# mutlak değere al fark işlemlerini  ----->  +
+
+# hacı sonda [40,28] iki kere tekrarlıyor ona dikkat et ve tüm düğümler için dene ----> +
+
+# usta dügüm ile karşılaşmadığı durumlar dahil diğer düğümleri deneyebileceğin tüm koşulları elinden gelince test et ondan sonra birim testine yeni metot ekle
+
+
+----------------------------------------------------------------- 24 Temmuz 2018
+
+komşuluk metoduna backP argumanını döndür (tüm diziyi döndürmesine
+gerek yok sadece son 5 değeri döndürmelisin. Dikkat et gidilen son
+path ve komşuluklar olmak üzere 5 değer döndürcen. Son 5 elemanı
+döndürmen yeterli olacaktır) ----------> -
+
+
+-------------------------------------------------------- 25 Temmuz 2018
+
+düğüm başına backPoint uyuşmazlığı olduğunu düşünüyorum. kontrolünü yap her düğüm için kontrol edilmesi gereken backPointleri tespit et. ([0,0] ve [-1,-1] düğümleri içinde
+backPoint olayını düşün) ---------------> -
+
+sıralıSonuc metodunda [0,0],[-1,-1] değerleride ekleniyor düğümlere neden olduğu sonuçları düşün ona göre ekleme yap veya çıkart --------> -
+
+
+
+sıralıSonuc metodunda return olarak dizi return leniyo kontrol et büyük ihtimalle sıkıntı var ---------------------> -

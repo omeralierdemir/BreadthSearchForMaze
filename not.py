@@ -12,3 +12,5 @@
 # hacı sonda [40,28] iki kere tekrarlıyor ona dikkat et ve tüm düğümler için dene ----> +
 
 # usta dügüm ile karşılaşmadığı durumlar dahil diğer düğümleri deneyebileceğin tüm koşulları elinden gelince test et ondan sonra birim testine yeni metot ekle
+
+#
