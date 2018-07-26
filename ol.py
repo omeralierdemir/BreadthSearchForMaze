@@ -17,32 +17,14 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 # bu metodun amacı dugumlerin yanına ek olarak elenmiş olan path ile birlikte tüm dügümleri tek dizide toplamaktır. path döndermek gerekesiz olabilir ilerleyen zamanlarda temizlemelisin
 def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olarak sıkıntı olabilir pythonda
-
     dugumler = []
-    backPath = []
-    count = 0
     for i in dugumSa:
 
-        for j in backPoint:
 
-
-            if(i in j):
-
-                path, dugum, checkP, backP = komsuluk(i[0], i[1], end, [j], img)  # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
-                backPath.append(backP)
-
-                break
-
-
-
-
-
-
+        path,dugum, checkP, backPoint = komsuluk(i[0], i[1], end, backPoint, img)     # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
         dugumler.extend(dugum)  # append de olabilir.
 
-
-
-    return dugumler ,path,checkP,backPath    # path i döndürmek sıkıntılı olabiblir
+    return dugumler ,path,checkP     # path i döndürmek sıkıntılı olabiblir
 
 
 
@@ -108,25 +90,22 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
             dugum = dugumNoktalari(i, j, yon)
 
+            ara = dugum[:]
 
-
-            filtreDugum = dugumFiltre(i,j,dugum)
+            filtreDugum = dugumFiltre(i,j,ara)
 
             if(len(filtreDugum) > 1):
 
                 dizi.pop(0)
                 dizi.pop(0)
 
-
+                aralık = filtreDugum[:]
                 backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
                 backPath[-1].extend(filtreDugum[:])
 
-                for k in range(len(dugum)):
+                for k in dugum:
 
-                    dugum[k] = dugum[k] + dizi
-
-                   # k = k + dizi
-
+                    k.extend(dizi)
 
 
 
@@ -327,7 +306,7 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
 
 
-""""x,y,z,a = komsuluk(42,28,[[41,28]],[[[41,28]]],thn)
+x,y,z,a = komsuluk(42,28,[[41,28]],[[[41,28]]],thn)
 
 print("path:", x)
 #print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
@@ -339,22 +318,16 @@ for i in y:
 print("dugumler : " , y)
 print("point : " ,z)
 
-print("backPoint : " ,a)"""
+print("backPoint : " ,a)
 
-print()
-print()
-print()
-a,b,c,z = sıralıArama([[42,28]],[[41,28]],[[[42,28],[41,28]]],thn)
-print("path:", b)
+
+#a,b,c = sıralıArama([[113,52],[114,51],[114,50]],[[90,103]],[[[41,28]]],thn)
+"""print("path:", b)
 #print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
 
 print("sadece dugumler : " )
 for i in a:
     print(i[0],i[1])
     print()
-print("dugumler : " )
-print()
-for i in a:
-    print(i)
-    print()
-print("backPoint : " ,z)
+print("dugumler : " , y)
+print("point : " ,z)"""

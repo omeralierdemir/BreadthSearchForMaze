@@ -19,7 +19,7 @@
 komşuluk metoduna backP argumanını döndür (tüm diziyi döndürmesine
 gerek yok sadece son 5 değeri döndürmelisin. Dikkat et gidilen son
 path ve komşuluklar olmak üzere 5 değer döndürcen. Son 5 elemanı
-döndürmen yeterli olacaktır) ----------> -
+döndürmen yeterli olacaktır) ----------> +
 
 
 -------------------------------------------------------- 25 Temmuz 2018
@@ -32,3 +32,8 @@ sıralıSonuc metodunda [0,0],[-1,-1] değerleride ekleniyor düğümlere neden 
 
 
 sıralıSonuc metodunda return olarak dizi return leniyo kontrol et büyük ihtimalle sıkıntı var ---------------------> -
+
+backPointler için nasıl bir karşılaştırma işlemi yapacağına bak  (her bir düğüm için ayrı bir liste elemanı fikrin var unutma ! ) ----------> -
+
+
+backPoint başlangıç değerine dikkat etmelisin ---------> !!!!
