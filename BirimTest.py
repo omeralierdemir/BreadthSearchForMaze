@@ -12,6 +12,110 @@ print(len(img[0]), len(img[1]),img.shape)
 thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
+def birlestir(dizi,katman):
+    """ for k in reversed(dizi):  # burada tersten dizinin elemanlarını gerezerek [0,0] olan düğüm noktasının indix numarasını bulmaya çalıştık
+
+            if([k[0],k[1]] == [0,0]):
+
+
+                break
+
+            count = count + 1 """
+    count = 0
+    path = []
+    dugumKordinatları = []
+
+
+
+
+
+
+    koordinat = dizi[-1][-1][0]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
+    path.extend(dizi[-1][-1])
+
+
+    for i in range(len(katman) -1): # katman sayısının bir eksiği kadar dönmesini istedik
+
+        for j in dizi:
+
+            if(koordinat == [j[0],j[1]]):
+
+                dugumKordinatları.append([j[0],j[1]])
+                path.extend(j[2])
+                koordinat = j[2][-1]
+                break
+
+                # koordinat tek değer atıyor  bak ona hacı
+
+
+    return dugumKordinatları,path
+
+
+def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşmazlığı var kontrol et
+
+
+    y,x = startP
+    kopruler = []
+    dugumler=[[y,x]]  #iç içe dizilerin mantığını kontrol et  [[x,y,0]] yapman gerekebilir diğer alternatif [[x,y]]
+    dugumKoordinat = [[y,x]]
+    sayac = []
+    katman = []
+    while(len(dugumler)>0):
+
+        dugumler,path,checkP, backPath = sıralıArama(dugumKoordinat,end,backPath,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır.
+        dugumKoordinat = []
+
+        if (checkP == 1):
+
+
+            for i in dugumler:
+                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
+
+                if([i[0],i[1]] != [-1,-1]):
+
+                    dugumKoordinat.append([i[0], i[1]])  # bu bölüm gereksiz olabilir ilerleyen zamanda silmek için kontrol et
+
+                    katman.append(dugumler)
+                    sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+            break
+
+        elif (len(dugumler) == 1 and ([dugumler[-1][0], dugumler[-1][1]] == [-1, -1])):
+
+            break # hacı bunu etraflıca düşün
+
+
+        elif(len(dugumler) == 1 and ([dugumler[-1][0], dugumler[-1][1]] == [0, 0])):
+
+            for i in dugumler:
+                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
+            break
+
+
+        else:
+
+
+            for i in dugumler:
+                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
+
+                if([i[0],i[1]] != [-1,-1]):
+
+                    dugumKoordinat.append([i[0], i[1]])
+
+
+           # dugumKoordinat =kopruler[:]  #else if içinde eklenmesi gerekebilir
+
+
+
+
+            sayac.extend(dugumler) # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+
+        katman.append(dugumler)
+
+
+    birlestir(sayac,katman)
+
 
 
 
@@ -34,7 +138,11 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
                 break
 
 
+        if(checkP == 1):
 
+            dugumler.extend(dugum)  # append de olabilir.
+
+            break
 
 
 
@@ -99,7 +207,24 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
 
 
-        if (len(yon) > 1):# dugum içini başka bir değişkene ata sebebi bu şekilde dugum her zaman 0 büyük oluyor. !!!!DİKKAT ETMELİSİN!!!!!!!!!
+
+        if ([i, j] in end):  # dugum == yon
+
+            print(
+                "umulur ki doğru yolu bulasın...")  # burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
+            dizi.append([i, j])
+            dizi.pop(0)
+            dizi.pop(0)
+
+            dogruYol = 1
+            dugum = [[0, 0, dizi]]  # şuna bi bak
+            break
+
+
+
+
+
+        elif (len(yon) > 1):# dugum içini başka bir değişkene ata sebebi bu şekilde dugum her zaman 0 büyük oluyor. !!!!DİKKAT ETMELİSİN!!!!!!!!!
 
 
             dizi.append([i, j])
@@ -148,6 +273,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
                 # dizi.append(filtreDugum[0])  # append olabilir hacı dikkat   # hacı burada ekleme yapmaya gerek yok sadece ive j nin yeni konumunu ayarlaman yeterlidir.
                 i,j = filtreDugum[0]
                 backPath.append([dizi[-1], dizi[-2], dizi[-3]])
+                backPath[-1] = backPath[-1] + backPath[0]  # aşağıda ekleme yaptık burada eklemeye gerek var mı bilmiyorum %90 yok ilerleyen zamanda sil
 
 
 
@@ -162,16 +288,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
 
 
-        elif (len(yon) <= 0 and [i,j] in end ):# dugum == yon
 
-            print("hatalı deger elde edildi...")# burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
-            dizi.append([i, j])
-            dizi.pop(0)
-            dizi.pop(0)
-
-            dogruYol = 1
-            dugum=[[0,0,dizi]] #şuna bi bak
-            break
 
 
 
@@ -202,6 +319,8 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
             i,j = interim[0][0],interim[0][1] # sebebi dizi içinde dizi döndermesidir.
 
             backPath.append([dizi[-1],dizi[-2],dizi[-3]])# 3 tane eklemene gerek kalmayabilir
+
+            backPath[-1] = backPath[-1] + backPath[0]  # burada geri dönüşü engellemek için ilk başta gönderdiğin düğüm bilgilerinide ekleyerek ilerliyoruz sisteme yük bindiriyor( fazla veri gerekirse silinecek) ileleyen süreçte elden geçir kodu
 
     #dizi.pop(0)
     #dizi.pop(0)   bunları diğer durumlar içinde yazabilirsin düğümler yoksa diye
@@ -340,6 +459,10 @@ print("dugumler : " , y)
 print("point : " ,z)
 
 print("backPoint : " ,a)"""
+
+
+
+sıralıSonuc([42,28],[[144,257]],[[[42,28],[41,28]]],thn)
 
 print()
 print()
