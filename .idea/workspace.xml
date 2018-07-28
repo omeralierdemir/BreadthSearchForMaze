@@ -4,7 +4,6 @@
     <list default="true" id="8e4469dc-fa33-438e-99db-ba19cfbf6979" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BirimTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BirimTest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Not" beforeDir="false" afterPath="$PROJECT_DIR$/Not" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,20 +14,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BreadthSearch.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BreadthSearch.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BreadthSearch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="42" selection-start-line="20" selection-end-line="47" />
+            <state relative-caret-position="157">
+              <caret line="50" selection-start-line="50" selection-end-line="50" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BirimTest.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BirimTest.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BirimTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="47" column="58" selection-start-line="47" selection-start-column="58" selection-end-line="47" selection-end-column="58" />
+            <state relative-caret-position="309">
+              <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -60,7 +59,7 @@
       <file leaf-file-name="Not" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Not">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
+            <state relative-caret-position="608">
               <caret line="32" column="118" selection-start-line="32" selection-start-column="118" selection-end-line="32" selection-end-column="118" />
             </state>
           </provider>
@@ -89,8 +88,8 @@
         <option value="$PROJECT_DIR$/not.py" />
         <option value="$PROJECT_DIR$/BreadthSearch.py" />
         <option value="$PROJECT_DIR$/ol.py" />
-        <option value="$PROJECT_DIR$/BirimTest.py" />
         <option value="$PROJECT_DIR$/Not" />
+        <option value="$PROJECT_DIR$/BirimTest.py" />
       </list>
     </option>
   </component>
@@ -104,7 +103,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,6 +114,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -212,7 +211,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49895832" visible="true" weight="0.4002242" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49895832" weight="0.4002242" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -614,27 +613,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BirimTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="47" column="58" selection-start-line="47" selection-start-column="58" selection-end-line="47" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Not">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
+        <state relative-caret-position="608">
           <caret line="32" column="118" selection-start-line="32" selection-start-column="118" selection-end-line="32" selection-end-column="118" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BreadthSearch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="42" selection-start-line="20" selection-end-line="47" />
+        <state relative-caret-position="157">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BirimTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -30,7 +30,7 @@ def birlestir(dizi,katman):
 
 
 
-    koordinat = dizi[-1][-1][0]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
+    koordinat = dizi[-1][-1][-1]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
     path.extend(dizi[-1][-1])
 
 
@@ -60,7 +60,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugumKoordinat = [[y,x]]
     sayac = []
     katman = []
-    while(len(dugumler)>0):
+    while(len(dugumKoordinat)>0):
 
         dugumler,path,checkP, backPath = sıralıArama(dugumKoordinat,end,backPath,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır.
         dugumKoordinat = []
@@ -82,7 +82,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
         elif (len(dugumler) == 1 and ([dugumler[-1][0], dugumler[-1][1]] == [-1, -1])):
 
-            break # hacı bunu etraflıca düşün
+            break # hacı bunu etraflıca düşün  # bu olay gerçekleşirse bir daha fotoğraf çektirilip çözüm olayı tekrarlanılabilir
 
 
         elif(len(dugumler) == 1 and ([dugumler[-1][0], dugumler[-1][1]] == [0, 0])):
@@ -100,7 +100,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
                 if([i[0],i[1]] != [-1,-1]):
 
-                    dugumKoordinat.append([i[0], i[1]])
+                    dugumKoordinat.append([i[0], i[1]]) # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
 
 
            # dugumKoordinat =kopruler[:]  #else if içinde eklenmesi gerekebilir
@@ -133,7 +133,7 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
             if(i in j):
 
                 path, dugum, checkP, backP = komsuluk(i[0], i[1], end, [j], img)  # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
-                backPath.append(backP)
+                backPath.append(backP) # bu satırdaki amaç her düğümün backPath ini bulmak
 
                 break
 
@@ -248,7 +248,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
                 for k in range(len(dugum)):
 
-                    dugum[k] = dugum[k] + dizi
+                    dugum[k] = dugum[k] + [dizi]
 
                    # k = k + dizi
 
