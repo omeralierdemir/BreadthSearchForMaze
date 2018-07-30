@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread("ilk.png" , 0)
+img = cv2.imread("iki.png" , 0)
 
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -21,6 +21,19 @@ def birlestir(dizi,katman):
                 break
 
             count = count + 1 """
+
+    """for i in range(len(katman) -1): # katman sayısının bir eksiği kadar dönmesini istedik
+
+         for j in dizi:
+
+             if(koordinat == [j[0],j[1]]):
+
+                 dugumKordinatları.append([j[0],j[1]])
+                 path.extend(j[2])
+                 koordinat = j[2][-1]
+                 break
+
+                 # koordinat tek değer atıyor  bak ona hacıv """
     count = 0
     path = []
     dugumKordinatları = []
@@ -28,24 +41,27 @@ def birlestir(dizi,katman):
 
 
 
-
+    ara = katman[-1][-1][2][0]
 
     koordinat = dizi[-1][-1][-1]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
-    path.extend(dizi[-1][-1])
+    path.extend(katman[-1][-1][2])
 
 
-    for i in range(len(katman) -1): # katman sayısının bir eksiği kadar dönmesini istedik
 
-        for j in dizi:
+    for i in reversed(katman):
 
-            if(koordinat == [j[0],j[1]]):
+        for j in i:
 
-                dugumKordinatları.append([j[0],j[1]])
+            if(ara == [j[0],j[1]]):
+
+                ara = j[2][0]
                 path.extend(j[2])
-                koordinat = j[2][-1]
+                dugumKordinatları.append([j[0],j[1]])
                 break
 
-                # koordinat tek değer atıyor  bak ona hacı
+
+
+
 
 
     return dugumKordinatları,path
@@ -114,7 +130,20 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
         katman.append(dugumler)
 
 
-    birlestir(sayac,katman)
+    dugum,path = birlestir(sayac,katman)
+
+    img2 = cv2.imread("iki.png",1)
+
+    for i in path:
+
+        y,x = i
+
+        img2[y][x] = [255,0,0]
+
+    cv2.imshow("sonuc",img2)
+    cv2.waitKey(0)
+
+
 
 
 
@@ -272,7 +301,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
                 # dizi.append(filtreDugum[0])  # append olabilir hacı dikkat   # hacı burada ekleme yapmaya gerek yok sadece ive j nin yeni konumunu ayarlaman yeterlidir.
                 i,j = filtreDugum[0]
-                backPath.append([dizi[-1], dizi[-2], dizi[-3]])
+                backPath.append([dizi[-1], dizi[-2], [i,j]])
                 backPath[-1] = backPath[-1] + backPath[0]  # aşağıda ekleme yaptık burada eklemeye gerek var mı bilmiyorum %90 yok ilerleyen zamanda sil
 
 
@@ -395,7 +424,7 @@ def dugumFiltre(i1,j1,dugum,img=None):
     dizi = []
 
     kopru = 0
-
+    kopru2 = 0
 
 
     for i in dugum:
@@ -405,6 +434,7 @@ def dugumFiltre(i1,j1,dugum,img=None):
             res = abs(i[0] - j[0])
 
             res2 = abs(i[1] - j[1])
+
 
             if(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
 
@@ -462,12 +492,14 @@ print("backPoint : " ,a)"""
 
 
 
-sıralıSonuc([42,28],[[144,257]],[[[42,28],[41,28]]],thn)
+#sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
 
+sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
+
+"""print()
 print()
 print()
-print()
-a,b,c,z = sıralıArama([[42,28]],[[41,28]],[[[42,28],[41,28]]],thn)
+a,b,c,z = sıralıArama([[42,28]],[[320,28]],[[[42,28],[41,28]]],thn)
 print("path:", b)
 #print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
 
@@ -480,4 +512,4 @@ print()
 for i in a:
     print(i)
     print()
-print("backPoint : " ,z)
+print("backPoint : " ,z)"""
