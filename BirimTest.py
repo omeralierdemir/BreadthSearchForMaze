@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread("iki.png" , 0)
+img = cv2.imread("dort.png" , 0)
 
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -132,7 +132,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     dugum,path = birlestir(sayac,katman)
 
-    img2 = cv2.imread("iki.png",1)
+    img2 = cv2.imread("dort.png",1)
 
     for i in path:
 
@@ -422,31 +422,46 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
 
     dizi = []
+    resDizi = []
+    res2Dizi = []
 
     kopru = 0
     kopru2 = 0
 
 
+
     for i in dugum:
-        dizi = []
         for j in dugum:
 
-            res = abs(i[0] - j[0])
+            resDizi.append(abs(i[0] - j[0]))
+            res2Dizi.append(abs(i[1] - j[1]))
 
-            res2 = abs(i[1] - j[1])
+
+    resDizi.sort()
+    res2Dizi.sort()
+
+    res = resDizi[-1]
+    res2 = res2Dizi[-1]
+
+    if(len(dugum) == 3 and res == 0): # dugum sayısı 3 e eşit olduğunda ve geliş guzergahının sagında veya solunda dugumlerin oldugu durum (y   ekseni için) # dikkat et bu durum gerçekleştiğinde dugum sayısı 3 de olsa aralarındaki fark 0 olmuyor. fark sıfır olsa dugum sayısı == 2 olmuş oluyor
+
+        kopru = 0
 
 
-            if(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
+    elif(len(dugum) ==  3 and res2 == 0):  # dugum sayısı 3 e eşit olduğunda ve geliş guzergahının altında veya ustunde dugumlerin oldugu durum (x ekseni için)
 
-                dizi = dugum[:]
+        kopru = 0
 
-                kopru = 1
 
-                break
+    elif(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
 
-        if(kopru == 1):
+        dizi = dugum[:]
 
-            break
+        kopru = 1
+
+
+
+
 
     if(kopru == 0):
 
@@ -492,9 +507,9 @@ print("backPoint : " ,a)"""
 
 
 
-#sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
+sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
 
-sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
+#sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
 
 """print()
 print()

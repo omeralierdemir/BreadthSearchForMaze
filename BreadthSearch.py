@@ -257,51 +257,45 @@ def dugumFiltre(i,j,dugum,img):
 
     kopru = 0
 
-
-
     for i in dugum:
-
+        dizi = []
         for j in dugum:
 
-            res = i[0] - j[0]
+            res = abs(i[0] - j[0])
 
-            res2 = i[1] - j[1]
+            res2 = abs(i[1] - j[1])
 
-            if(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
-
-                dizi = dugum
+            if (res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
+                dizi = dugum[:]
 
                 kopru = 1
 
                 break
 
-        if(kopru == 1):
-
+        if (kopru == 1):
             break
 
-    if(kopru == 0):
+    if (kopru == 0):
 
-        for i in dugum:
+        for n in dugum:
 
+            if ([i1, j1 + 1] == n):  # ----> 0
 
-            if([[i],[j + 1]] == i):
-
-
-                dizi.append(i)
-
-            elif([[i + 1],[j]] == i):
-
-                dizi.append(i)
+                dizi.append(n)
 
 
-            elif ([[i], [j - 1]] == i):
+            elif ([i1 + 1, j1] == n):  # ----> 2
 
-                dizi.append(i)
+                dizi.append(n)
 
-            elif ([[i -1], [j]] == i):
 
-                dizi.append(i)
+            elif ([i1, j1 - 1] == n):  # ----> 4
 
+                dizi.append(n)
+
+            elif ([i1 - 1, j1] == n):  # ----> 6
+
+                dizi.append(n)
 
     return dizi
 

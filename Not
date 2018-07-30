@@ -40,3 +40,8 @@ backPoint başlangıç değerine dikkat etmelisin ---------> !!!!
 
 ([0,0] ve [-1,-1] düğümleri içinde
 backPoint olayını düşün) ---------------> -
+
+
+---------------------------------------------------------------------------------------------- 30 Temmuz 2018
+
+iki.png de bir sonsuz döngü var kodun orada nasıl davrandığını incelemelisin. ---------> -
