@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread("dort.png" , 0)
+img = cv2.imread("7.png" , 0)
 
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -132,7 +132,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     dugum,path = birlestir(sayac,katman)
 
-    img2 = cv2.imread("dort.png",1)
+    img2 = cv2.imread("7.png",1)
 
     for i in path:
 
@@ -268,12 +268,14 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
             if(len(filtreDugum) > 1):
 
-                dizi.pop(0)
-                dizi.pop(0)
+
 
 
                 backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
                 backPath[-1].extend(filtreDugum[:])
+
+                dizi.pop(0)
+                dizi.pop(0)
 
                 for k in range(len(dugum)):
 
@@ -505,9 +507,13 @@ print("point : " ,z)
 
 print("backPoint : " ,a)"""
 
+#sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
+sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn)
 
 
-sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
+#sıralıSonuc([135,164],[[72,84]],[[[135,164],[135,165]]],thn)
+
+#sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
 
 #sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
 
