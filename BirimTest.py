@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread("7.png" , 0)
+img = cv2.imread("bes.jpeg" , 0)
+#img = cv2.imread("6.png", 0)
 
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -72,13 +73,24 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     y,x = startP
     kopruler = []
+    lastDugum = []  # 0-0 olabilir null değerden iyidir test et
     dugumler=[[y,x]]  #iç içe dizilerin mantığını kontrol et  [[x,y,0]] yapman gerekebilir diğer alternatif [[x,y]]
     dugumKoordinat = [[y,x]]
     sayac = []
     katman = []
     while(len(dugumKoordinat)>0):
 
-        dugumler,path,checkP, backPath = sıralıArama(dugumKoordinat,end,backPath,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır.
+
+
+        dugumler,path,checkP, backPath = sıralıArama(dugumKoordinat,end,backPath ,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır. # burada dugumkordinatları eklememizin sebebi bir önceki katmandaki dugumlere yani geriye gitmeyi önlemek amaç
+
+
+
+        for k in backPath:  # bir önceki düğüm noktalarının koordinatlarını şuanki backPointe ekledik.
+
+            k.extend(lastDugum)
+
+
         dugumKoordinat = []
 
         if (checkP == 1):
@@ -128,11 +140,13 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
         katman.append(dugumler)
+        lastDugum = dugumKoordinat[:]
 
 
     dugum,path = birlestir(sayac,katman)
 
-    img2 = cv2.imread("7.png",1)
+    img2 = cv2.imread("bes.jpeg",1)
+    #img2 = cv2.imread("6.png", 1)
 
     for i in path:
 
@@ -508,10 +522,11 @@ print("point : " ,z)
 print("backPoint : " ,a)"""
 
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
-sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn)
+#sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
 
-#sıralıSonuc([135,164],[[72,84]],[[[135,164],[135,165]]],thn)
+sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
+#sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
 #sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
 
