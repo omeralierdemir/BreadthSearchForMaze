@@ -76,9 +76,10 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     lastDugum = []  # 0-0 olabilir null değerden iyidir test et
     dugumler=[[y,x]]  #iç içe dizilerin mantığını kontrol et  [[x,y,0]] yapman gerekebilir diğer alternatif [[x,y]]
     dugumKoordinat = [[y,x]]
+    backDugum = []
     sayac = []
     katman = []
-    while(len(dugumKoordinat)>0):
+    while(len(dugumler)>0):
 
 
 
@@ -140,7 +141,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
         katman.append(dugumler)
-        lastDugum = dugumKoordinat[:]
+        lastDugum.extend( dugumKoordinat)
 
 
     dugum,path = birlestir(sayac,katman)
@@ -180,16 +181,18 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
 
             if(i in j):
 
-                araci2 = araci2 + araci1[:]
+                #araci2 = araci2 + araci1[:] # şuan için tüm dügümler için eklemen gerektiğini düşünmüyorum bu yüzden alttaki satırda sadece araci1 i ekledim bu satır yorum satırı
                 pathAraci2 = pathAraci1 + pathAraci2
-                j.extend(araci2)
+                j.extend(araci1)
                 path, dugum, checkP, backP = komsuluk(i[0], i[1], end, [j], img)  # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
 
                 for i1 in dugum:
 
 
                     araci1.append([i1[0],i1[1]]) #buradaki amaç o anki başka düğüm noktasında bulunan dügümleri backPath e eklemek bu sayede geri dönüş azaltılacak diye düşünüyorum. Bir sıkıntı çıkarsa bunu sil
-                    pathAraci1.append(i1[2][-1])
+
+                pathAraci1.append(i1[-1][-1])
+                backP.extend(araci1)
                 backPath.append(backP) # bu satırdaki amaç her düğümün backPath ini bulmak
 
                 break
@@ -539,8 +542,12 @@ print("backPoint : " ,a)"""
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
 
+#sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
-sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
+sıralıSonuc([80,131],[[60,69]],[[[80,131],[81,131]]],thn) # bes.jpeg
+
+sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
+#sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
 #sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn)
 
