@@ -3,8 +3,8 @@ import numpy as np
 
 
 #img = cv2.imread("6.png" , 0)
-img = cv2.imread("dort.png", 0)
-
+img = cv2.imread("gercek.png", 0)
+#img = cv2.imread("bes.jpeg",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -75,7 +75,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     kopruler = []
     lastDugum = []  # 0-0 olabilir null değerden iyidir test et
     dugumler=[[y,x]]  #iç içe dizilerin mantığını kontrol et  [[x,y,0]] yapman gerekebilir diğer alternatif [[x,y]]
-    dugumKoordinat = [[y,x]]
+    dugumKoordinat = dugumler[:]
     backDugum = []
     sayac = []
     katman = []
@@ -83,29 +83,33 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
 
+
         dugumler,path,checkP, backPath = sıralıArama(dugumKoordinat,end,backPath ,img)  #while den çıkması demek dugumun = 0 olması demek buda doğru sonucu bulduğu anlamına gelmekte kodu inceleve gereksiz ise checkP ortadan kaldır. # burada dugumkordinatları eklememizin sebebi bir önceki katmandaki dugumlere yani geriye gitmeyi önlemek amaç
 
+        dugumKoordinat = []
 
 
-        for k in backPath:  # bir önceki düğüm noktalarının koordinatlarını şuanki backPointe ekledik.
+        for i in dugumler:
+            kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
+
+            if ([i[0], i[1]] != [-1, -1]):
+                dugumKoordinat.append([i[0], i[
+                    1]])  # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
+
+        lastDugum.extend(dugumKoordinat)
+        sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+        for k in backPath:
 
             k.extend(lastDugum)
 
 
-        dugumKoordinat = []
 
         if (checkP == 1):
 
 
-            for i in dugumler:
-                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
-
-                if([i[0],i[1]] != [-1,-1]):
-
-                    dugumKoordinat.append([i[0], i[1]])  # bu bölüm gereksiz olabilir ilerleyen zamanda silmek için kontrol et
-
-                    katman.append(dugumler)
-                    sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+            katman.append(dugumler)
+         #   sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
 
             break
 
@@ -114,40 +118,25 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
             break # hacı bunu etraflıca düşün  # bu olay gerçekleşirse bir daha fotoğraf çektirilip çözüm olayı tekrarlanılabilir
 
 
-        elif(len(dugumler) == 1 and ([dugumler[-1][0], dugumler[-1][1]] == [0, 0])):
-
-            for i in dugumler:
-                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
-            break
-
-
-        else:
-
-
-            for i in dugumler:
-                kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
-
-                if([i[0],i[1]] != [-1,-1]):
-
-                    dugumKoordinat.append([i[0], i[1]]) # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
-
-
-           # dugumKoordinat =kopruler[:]  #else if içinde eklenmesi gerekebilir
 
 
 
 
-            sayac.extend(dugumler) # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
+
+
 
 
         katman.append(dugumler)
-        lastDugum.extend( dugumKoordinat)
+
 
 
     dugum,path = birlestir(sayac,katman)
 
-   # img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("dort.png", 1)
+    #img2 = cv2.imread("6.png",1)
+    img2 = cv2.imread("gercek.png", 1)
+   # img2 = cv2.imread("bes.jpeg", 1)
+
+
 
     for i in path:
 
@@ -155,7 +144,9 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
         img2[y][x] = [255,0,0]
 
-    cv2.imshow("sonuc",img2)
+    cv2.namedWindow("omer", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("omer", 1174, 1117)
+    cv2.imshow("omer",img2)
     cv2.waitKey(0)
 
 
@@ -173,6 +164,7 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
     araci2 = []
     pathAraci1 = []
     pathAraci2 = []
+    araDeger = []
     for i in dugumSa:
 
 
@@ -182,19 +174,19 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
             if(i in j):
 
                 #araci2 = araci2 + araci1[:] # şuan için tüm dügümler için eklemen gerektiğini düşünmüyorum bu yüzden alttaki satırda sadece araci1 i ekledim bu satır yorum satırı
-                pathAraci2 = pathAraci1 + pathAraci2
-                j.extend(araci1)
+               # pathAraci2 = pathAraci1 + pathAraci2
+               # j.extend(araci1)
                 path, dugum, checkP, backP = komsuluk(i[0], i[1], end, [j], img)  # i[0,0,0] uyumsuzluğu dikkat et # hacı burda i[][] de olabilir dikkat!!!!
 
-                for i1 in dugum:
+
+                for k in dugum:
+
+                    araDeger.append([k[0],k[1]])
 
 
-                    araci1.append([i1[0],i1[1]]) #buradaki amaç o anki başka düğüm noktasında bulunan dügümleri backPath e eklemek bu sayede geri dönüş azaltılacak diye düşünüyorum. Bir sıkıntı çıkarsa bunu sil
 
-                pathAraci1.append(i1[-1][-1])
-                backP.extend(araci1)
                 backPath.append(backP) # bu satırdaki amaç her düğümün backPath ini bulmak
-
+                araDeger = []
                 break
 
 
@@ -303,7 +295,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
 
                 backPath.append([dizi[-1], dizi[-2], dizi[-3]])  # dugum noktalarında geri dönüşü engellemek için yaptık burada path son ve dugum pikselleri eklenmesi amçlanmıştır.
-                backPath[-1].extend(filtreDugum[:])
+                backPath[-1].extend(filtreDugum[:])  # buradaki kodda o anki katmandaki düğümlere gitmek engellenmiştir.
 
                 dizi.pop(0)
                 dizi.pop(0)
@@ -538,7 +530,7 @@ print("point : " ,z)
 
 print("backPoint : " ,a)"""
 
-#sıralıSonuc([114,57],[[933,1012]],[[[114,56],[114,57]]],thn) # 6.png
+sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
@@ -550,7 +542,7 @@ print("backPoint : " ,a)"""
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
-sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
+#sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
 
 #sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
 #sıralıSonuc([114,57],[[1012,933]],[[[114,56],[144,57]]],thn)
