@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 
 
+img = cv2.imread("ilk.png" , 0)
 #img = cv2.imread("6.png" , 0)
-img = cv2.imread("gercek.png", 0)
+#img = cv2.imread("gercek.png", 0)
 #img = cv2.imread("bes.jpeg",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -38,27 +39,49 @@ def birlestir(dizi,katman):
     count = 0
     path = []
     dugumKordinatları = []
+    dugumKordinatlarıs = []
+    paths = []
+    sayac = []
+    dogruYol = []
+    araDugumler = []
 
 
-
-
-    ara = katman[-1][-1][2][0]
+    ara = katman[-1][-1][2][0]# 0-0 üserindeki düğüm noktası
 
     koordinat = dizi[-1][-1][-1]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
     path.extend(katman[-1][-1][2])
 
 
+    for k in katman[-1]:
 
-    for i in reversed(katman):
+        if([k[0],k[1]] == [0,0]):
 
-        for j in i:
+            araDugumler.append(k[2][0])
 
-            if(ara == [j[0],j[1]]):
 
-                ara = j[2][0]
-                path.extend(j[2])
-                dugumKordinatları.append([j[0],j[1]])
-                break
+    for l in araDugumler:
+        ara = l
+
+        for i in reversed(katman):
+
+            for j in i:
+
+                if (ara == [j[0], j[1]]):
+                    ara = j[2][0]
+                    path.extend(j[2])
+                    dugumKordinatları.append([j[0], j[1]])
+                    break
+
+        dugumKordinatlarıs.append(dugumKordinatları)
+        paths.append(path)
+
+
+        for s in paths:
+            sayac.append([[len(s)],[s]])
+
+        sayac.sort()
+
+
 
 
 
@@ -70,7 +93,7 @@ def birlestir(dizi,katman):
 
 def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşmazlığı var kontrol et
 
-
+    count = 1
     y,x = startP
     kopruler = []
     lastDugum = []  # 0-0 olabilir null değerden iyidir test et
@@ -88,24 +111,22 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
         dugumKoordinat = []
 
+        for k in backPath:
+            k.extend(lastDugum)
 
         for i in dugumler:
             kopruler.append([i[0], i[1]])  # dugum nokları sıra ile ekleniyo
 
             if ([i[0], i[1]] != [-1, -1]):
-                dugumKoordinat.append([i[0], i[
-                    1]])  # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
+                dugumKoordinat.append([i[0], i[1]])  # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
 
         lastDugum.extend(dugumKoordinat)
         sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
 
-        for k in backPath:
-
-            k.extend(lastDugum)
 
 
 
-        if (checkP == 1):
+        if (checkP == 1): # checkPoint
 
 
             katman.append(dugumler)
@@ -119,13 +140,6 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
 
-
-
-
-
-
-
-
         katman.append(dugumler)
 
 
@@ -133,7 +147,8 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman)
 
     #img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("gercek.png", 1)
+    img2 = cv2.imread("ilk.png",1)
+    #img2 = cv2.imread("gercek.png", 1)
    # img2 = cv2.imread("bes.jpeg", 1)
 
 
@@ -190,11 +205,6 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
                 break
 
 
-        if(checkP == 1):
-
-            dugumler.extend(dugum)  # append de olabilir.
-
-            break
 
 
 
@@ -211,6 +221,7 @@ def sıralıArama(dugumSa, end, backPoint, img):  # dizi döndörme arguman olar
 def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
     i, j = y,x
     state = True
+    backPath[-1].extend([[i,j]])
     dugum = []
 
 
@@ -530,7 +541,10 @@ print("point : " ,z)
 
 print("backPoint : " ,a)"""
 
-sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
+
+
+sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # real
+#sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
