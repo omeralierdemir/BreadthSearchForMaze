@@ -3,7 +3,7 @@ import numpy as np
 
 
 #img = cv2.imread("6.png" , 0)
-img = cv2.imread("gercek.png", 0)
+img = cv2.imread("re.png", 0)
 #img = cv2.imread("bes.jpeg",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -133,7 +133,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman)
 
     #img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("gercek.png", 1)
+    img2 = cv2.imread("re.png", 1)
    # img2 = cv2.imread("bes.jpeg", 1)
 
 
@@ -530,7 +530,7 @@ print("point : " ,z)
 
 print("backPoint : " ,a)"""
 
-sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
+sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
