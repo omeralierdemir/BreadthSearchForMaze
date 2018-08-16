@@ -2,10 +2,11 @@ import cv2
 import numpy as np
 
 
+#img = cv2.imread("a.jpg" , 0)
 img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
 #img = cv2.imread("gercek.png", 0)
-#img = cv2.imread("bes.jpeg",0)
+#img = cv2.imread("dort.png",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -60,6 +61,9 @@ def birlestir(dizi,katman):
             araKatman.append(a2 + [0])
 
         katman2.append(araKatman)
+        araKatman = []
+
+    print(len(katman2), len(katman))
     for k in katman[-1]:
 
         if([k[0],k[1]] == [0,0]):
@@ -75,6 +79,7 @@ def birlestir(dizi,katman):
         path.extend(ters)
         count = count + 1
         araKatman = []
+
 
         for i in reversed(katman2):
 
@@ -178,6 +183,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     #img2 = cv2.imread("6.png",1)
     img2 = cv2.imread("re.png",1)
+   # img2 = cv2.imread("dort.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
    # img2 = cv2.imread("bes.jpeg", 1)
 
@@ -566,6 +572,7 @@ print("point : " ,z)
 print("backPoint : " ,a)"""
 
 
+#sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
 sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
