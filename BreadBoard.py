@@ -37,9 +37,8 @@ def birlestir(dizi,katman):
                  break
 
                  # koordinat tek değer atıyor  bak ona hacıv """
-    state = True
+    count = 0
     count2 = 0
-    deg = 0
     path = []
     dugumKordinatları = []
     dugumKordinatlarıs = []
@@ -52,7 +51,6 @@ def birlestir(dizi,katman):
     araKatman2 = []
     katman2 = []
     sayac2 = 0
-    sayac3 = 0
 
     ara = katman[-1][-1][2][0]# 0-0 üserindeki düğüm noktası
 
@@ -80,71 +78,41 @@ def birlestir(dizi,katman):
         ara = l
         ters.extend(reversed(ilkPath[0]))
         path.extend(ters)
-
+        count = count + 1
         araKatman = []
 
 
         for i in reversed(katman2):
-            print(len(i))
+
             for j in i:
 
-                if (sayac2 <= 0):
+                if (ara == [j[0],j[1]] and j[3] == 0):
 
-                    if (ara == [j[0],j[1]] and j[3] == 0):
-                        state = 0
-                        ara = j[2][0]
-                        j[3] = 1
-                        path.extend(reversed(j[2]))
+                    ara = j[2][0]
+                    j[3] = 1
+                    path.extend(reversed(j[2]))
 
-                        dugumKordinatları.append([j[0], j[1]])
-                        araKatman.append(j)  # fazladan ekliyorsun büyük ihtimalle burdaki ara katmandan kasıt 1 katman seviyesindeki tüm dügümler.
+                    dugumKordinatları.append([j[0], j[1]])
 
-                        sayac2 = 1
-                else:
-                    araKatman.append(j)
+                    sayac2 = 1
+                    #araKatman.append(j)    # fazladan ekliyorsun büyük ihtimalle burdaki ara katmandan kasıt 1 katman seviyesindeki tüm dügümler.
+
+                    break
 
 
-            sayac2 = 0
-
-            if(state):
-
-                for j in i:
-
-                    if(sayac3 <= 0):
-
-                        if (ara == [j[0], j[1]] and j[3] == 1):
-                            ara = j[2][0]
-                            path.extend(reversed(j[2]))
-
-                            dugumKordinatları.append([j[0], j[1]])
-                            araKatman.append(j)
-
-                            sayac3 = 1
-                            deg = 1
-                        if(deg ==0):
-                            araKatman.append(j)
-
-                    else:
-                        araKatman.append(j)
+                if(ara == [j[0],j[1]] and j[3] == 1):
 
 
+                    ara = j[2][0]
+                    path.extend(reversed(j[2]))
+
+                    dugumKordinatları.append([j[0], j[1]])
+                    #araKatman.append(j)
 
 
-                sayac3 = 0
-                deg = 0
-
-            state = True
-
-
-
-
-
-
-
-
-                   # araKatman.append(j) # ara katmanı sonradan if üstüne alıp ifler içindeki arakatmana yapılan eklemeleri silebilirsin
+                araKatman.append(j)
             araKatman2.append(araKatman)
-            araKatman = []
+
         katman2 = araKatman2[:]
 
         dugumKordinatlarıs.append(dugumKordinatları)
@@ -218,7 +186,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman)
 
     #img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("res.png",1)
+    img2 = cv2.imread("re.png",1)
    # img2 = cv2.imread("dort.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
    # img2 = cv2.imread("bes.jpeg", 1)
