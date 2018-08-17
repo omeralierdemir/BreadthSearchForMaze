@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 
 
-#img = cv2.imread("a.jpg" , 0)
-img = cv2.imread("re.png" , 0)
+img = cv2.imread("bes.jpeg" , 0)
+#img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
 #img = cv2.imread("gercek.png", 0)
-#img = cv2.imread("dort.png",0)
+#img = cv2.imread("6.png",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -81,71 +81,56 @@ def birlestir(dizi,katman):
         ters.extend(reversed(ilkPath[0]))
         path.extend(ters)
 
+        print(sayac3 , "sayac")
+        sayac3 = sayac3 + 1
+
         araKatman = []
 
 
-        for i in reversed(katman2):
-            print(len(i))
-            for j in i:
-
-                if (sayac2 <= 0):
-
-                    if (ara == [j[0],j[1]] and j[3] == 0):
-                        state = 0
-                        ara = j[2][0]
-                        j[3] = 1
-                        path.extend(reversed(j[2]))
-
-                        dugumKordinatları.append([j[0], j[1]])
-                        araKatman.append(j)  # fazladan ekliyorsun büyük ihtimalle burdaki ara katmandan kasıt 1 katman seviyesindeki tüm dügümler.
-
-                        sayac2 = 1
-                else:
-                    araKatman.append(j)
+        for i in range(len(katman2)-1,-1,-1):
+            print("say hello")
+           # print(len(katman2[i]))
+            for j in range(len(katman2[i])):
 
 
-            sayac2 = 0
+
+                if (ara == [katman2[i][j][0],katman2[i][j][1]] and katman2[i][j][3] == 0):
+                    state = 0
+                    ara = katman2[i][j][2][0]
+                    katman2[i][j][3] = 1
+
+                    path.extend(reversed(katman2[i][j][2]))
+
+                    dugumKordinatları.append([katman2[i][j][0], katman2[i][j][1]])
+                    break # fazladan ekliyorsun büyük ihtimalle burdaki ara katmandan kasıt 1 katman seviyesindeki tüm dügümler.
+
+
+
+
+
 
             if(state):
 
-                for j in i:
-
-                    if(sayac3 <= 0):
-
-                        if (ara == [j[0], j[1]] and j[3] == 1):
-                            ara = j[2][0]
-                            path.extend(reversed(j[2]))
-
-                            dugumKordinatları.append([j[0], j[1]])
-                            araKatman.append(j)
-
-                            sayac3 = 1
-                            deg = 1
-                        if(deg ==0):
-                            araKatman.append(j)
-
-                    else:
-                        araKatman.append(j)
+                for j in range(len(katman2[i])):
 
 
 
 
-                sayac3 = 0
-                deg = 0
+                    if (ara == [katman2[i][j][0], katman2[i][j][1]] and katman2[i][j][3] == 1):
+
+                        ara = katman2[i][j][2][0]
+
+
+                        path.extend(reversed(katman2[i][j][2]))
+
+                        dugumKordinatları.append([katman2[i][j][0], katman2[i][j][1]])
+
+                        break
+
 
             state = True
 
 
-
-
-
-
-
-
-                   # araKatman.append(j) # ara katmanı sonradan if üstüne alıp ifler içindeki arakatmana yapılan eklemeleri silebilirsin
-            araKatman2.append(araKatman)
-            araKatman = []
-        katman2 = araKatman2[:]
 
         dugumKordinatlarıs.append(dugumKordinatları)
         paths.append(path)
@@ -197,7 +182,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
 
-        if (checkP > 1): # checkPoint
+        if (checkP >= 1): # checkPoint
 
 
             katman.append(dugumler)
@@ -217,11 +202,11 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     dugum,path = birlestir(sayac,katman)
 
-    #img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("res.png",1)
-   # img2 = cv2.imread("dort.png", 1)
+   # img2 = cv2.imread("6.png",1)
+    #img2 = cv2.imread("res.png",1)
+    #img2 = cv2.imread("dort.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
-   # img2 = cv2.imread("bes.jpeg", 1)
+    img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -609,7 +594,7 @@ print("backPoint : " ,a)"""
 
 
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
+#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
@@ -621,7 +606,7 @@ sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
 #sıralıSonuc([80,131],[[60,69]],[[[80,131],[81,131]]],thn) # bes.jpeg
 
-#sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
+sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
 #sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
