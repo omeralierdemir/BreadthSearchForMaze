@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread("bes.jpeg" , 0)
+#img =  cv2.imread("bes.jpeg" , 0)
 #img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
-#img = cv2.imread("gercek.png", 0)
-#img = cv2.imread("6.png",0)
+img = cv2.imread("gercek.png", 0)
+#img = cv2.imread("ilk.png",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -88,8 +88,8 @@ def birlestir(dizi,katman):
 
 
         for i in range(len(katman2)-1,-1,-1):
-            print("say hello")
-           # print(len(katman2[i]))
+
+            print(len(katman2[i]))
             for j in range(len(katman2[i])):
 
 
@@ -203,10 +203,10 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman)
 
    # img2 = cv2.imread("6.png",1)
-    #img2 = cv2.imread("res.png",1)
-    #img2 = cv2.imread("dort.png", 1)
+    img2 = cv2.imread("res.png",1)
+    #img2 = cv2.imread("ilk.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
-    img2 = cv2.imread("bes.jpeg", 1)
+ #   img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -379,12 +379,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
 
 
-                    # buradaki amacımız  [[dugum1],[dugum2],[yol dizisi]] burada yol dizisinin son elemaın dugumun başlangıc noktasındaki pikselin bir önceki pikselidir"""
-
-
-
-
-
+                    # buradaki amacımız  [[dugum1],[dugum2],[yol dizisi]] burada yol dizisinin son elemaın dugumun başlangıc noktasındaki pikselin bir önceki pikselidir""
 
 
                 break  # ana döngüye ait break
@@ -398,15 +393,6 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
                 i,j = filtreDugum[0]
                 backPath.append([dizi[-1], dizi[-2], [i,j]])
                 backPath[-1] = backPath[-1] + backPath[0]  # aşağıda ekleme yaptık burada eklemeye gerek var mı bilmiyorum %90 yok ilerleyen zamanda sil
-
-
-
-
-
-
-
-
-
 
 
 
@@ -467,7 +453,7 @@ def dugumNoktalari(x1,y1,dugum):
         elif (i == 1):
 
             x, y = x + 1, y + 1
-            deger.append([x , y])
+            deger.append([x, y])
 
         elif (i == 2):
 
@@ -503,9 +489,40 @@ def dugumNoktalari(x1,y1,dugum):
 
 
 
+def dugumFiltre2(y,x,dugum):
+
+    dizi = komsulukSaptama(y,x,dugum)
+
+    gurultu = []
+    for i in dizi:
+
+        for j in dizi:
 
 
-def dugumFiltre(i1,j1,dugum,img=None):
+            y = abs(i[0] - j[0])
+            x = abs(i[1] - j[1])
+
+            if([y,x] == [1,0] and i[2] in [1,3,5,7]):
+
+                gurultu.append([i[0],i[1]])
+
+            elif([y,x] == [0,1] and i[2] in [1,3,5,7]):
+
+                gurultu.append([i[0],i[1]])
+
+    for i in range(len(dizi)):
+
+        dizi[i].pop(2)
+
+    for i in gurultu:
+
+        dizi.remove(i)
+
+
+
+    return dizi
+
+def dugumFiltre(i1,j1,dugum):
 
 
     dizi = []
@@ -519,6 +536,10 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
     for i in dugum:
         for j in dugum:
+
+
+
+
 
             resDizi.append(abs(i[0] - j[0]))
             res2Dizi.append(abs(i[1] - j[1]))
@@ -542,8 +563,9 @@ def dugumFiltre(i1,j1,dugum,img=None):
 
     elif(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
 
-        dizi = dugum[:]
+        #dizi = dugum[:]
 
+        dizi = dugumFiltre2(i1,j1,dugum)
         kopru = 1
 
 
@@ -573,9 +595,63 @@ def dugumFiltre(i1,j1,dugum,img=None):
                 dizi.append(n)
 
 
+
     return dizi
 
 
+
+
+def komsulukSaptama(y,x,dugum):
+
+    i,j = y,x
+    yon = []
+
+    for k in range(len(dugum)):
+
+        if ([i,j + 1] == dugum[k]):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+            yon.append(0)
+
+            dugum[k].append(0)
+            kopru = 0
+
+        elif ([i + 1,j + 1] == dugum[k]):
+            yon.append(1)
+            dugum[k].append(1)
+            kopru = 1
+
+        elif ([i + 1,j] == dugum[k]):
+            yon.append(2)
+            dugum[k].append(2)
+            kopru = 2
+
+        elif ([i + 1,j - 1] == dugum[k]):
+            yon.append(3)
+            dugum[k].append(3)
+            kopru = 3
+
+        elif ([i,j - 1] == dugum[k]):
+            yon.append(4)
+            dugum[k].append(4)
+            kopru = 4
+
+        elif ([i - 1,j - 1] == dugum[k]):
+            yon.append(5)
+            dugum[k].append(5)
+            kopru = 5
+
+        elif ([i - 1,j] == dugum[k]):
+            yon.append(6)
+
+            dugum[k].append(6)# duvgum değikeninin adını yon olarak değiştir.
+            kopru = 6
+
+        elif ([i - 1,j + 1] == dugum[k]):  # buralara dikkat et ve 255 değerine de
+
+            yon.append(7)
+            dugum[k].append(7)
+            kopru = 7
+
+    return dugum
 
 
 """"x,y,z,a = komsuluk(42,28,[[41,28]],[[[41,28]]],thn)
@@ -594,7 +670,7 @@ print("backPoint : " ,a)"""
 
 
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
+#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
@@ -602,11 +678,11 @@ print("backPoint : " ,a)"""
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
 
-#sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
+sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
 #sıralıSonuc([80,131],[[60,69]],[[[80,131],[81,131]]],thn) # bes.jpeg
 
-sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
+#sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
 #sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
