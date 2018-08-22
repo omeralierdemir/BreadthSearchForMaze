@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 
 
-#img = cv2.imread("bes.jpeg" , 0)
-img = cv2.imread("gercek.png" , 0)
+img = cv2.imread("bes.jpeg" , 0)
+#img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
 #img = cv2.imread("gercek.png", 0)
 #img = cv2.imread("6.png",0)
@@ -75,7 +75,7 @@ def birlestir(dizi,katman):
 
             ilkPath.append(k[2])
 
-
+    print("katman sayısı :" , len(katman2[-1]))
     for l in araDugumler:
         ara = l
         ters.extend(reversed(ilkPath[0]))
@@ -203,10 +203,10 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman)
 
     #img2 = cv2.imread("6.png",1)
-    img2 = cv2.imread("res.png",1)
+    #img2 = cv2.imread("res.png",1)
     #img2 = cv2.imread("dort.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
-    #img2 = cv2.imread("bes.jpeg", 1)
+    img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -282,6 +282,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
     state = True
     backPath[-1].extend([[i,j]])
     dugum = []
+    count = 0
 
 
     dizi= [[0,0],[0,0]]  # burada hata olabilir...  burada en son 3 eleman eklemede sıkıntı çıkarıyor ondan böyle 2 tane 0-0 dizisi atadın  ----> Hacı burada boş küme ile başlattım. return evresinden önce o elemanı silmelisin
@@ -332,8 +333,9 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
         if ([i, j] in end):  # dugum == yon
 
+            count = count + 1
             print(
-                "umulur ki doğru yolu bulasın...")  # burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
+                "umulur ki doğru yolu bulasın...", count)  # burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
             dizi.append([i, j])
             dizi.pop(0)
             dizi.pop(0)
@@ -597,7 +599,7 @@ print("backPoint : " ,a)"""
 #sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # real
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
-sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
+#sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
@@ -606,7 +608,7 @@ sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
 #sıralıSonuc([80,131],[[60,69]],[[[80,131],[81,131]]],thn) # bes.jpeg
 
-#sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
+sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
 #sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png

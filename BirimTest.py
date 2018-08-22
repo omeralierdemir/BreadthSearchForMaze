@@ -5,7 +5,7 @@ import numpy as np
 #img =  cv2.imread("bes.jpeg" , 0)
 #img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
-img = cv2.imread("gercek.png", 0)
+img = cv2.imread("re.png", 0)
 #img = cv2.imread("ilk.png",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -16,27 +16,7 @@ thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
 def birlestir(dizi,katman):
-    """ for k in reversed(dizi):  # burada tersten dizinin elemanlarını gerezerek [0,0] olan düğüm noktasının indix numarasını bulmaya çalıştık
 
-            if([k[0],k[1]] == [0,0]):
-
-
-                break
-
-            count = count + 1 """
-
-    """for i in range(len(katman) -1): # katman sayısının bir eksiği kadar dönmesini istedik
-
-         for j in dizi:
-
-             if(koordinat == [j[0],j[1]]):
-
-                 dugumKordinatları.append([j[0],j[1]])
-                 path.extend(j[2])
-                 koordinat = j[2][-1]
-                 break
-
-                 # koordinat tek değer atıyor  bak ona hacıv """
     state = True
     count2 = 0
     deg = 0
@@ -53,6 +33,7 @@ def birlestir(dizi,katman):
     katman2 = []
     sayac2 = 0
     sayac3 = 0
+    count = 0
 
     ara = katman[-1][-1][2][0]# 0-0 üserindeki düğüm noktası
 
@@ -67,6 +48,8 @@ def birlestir(dizi,katman):
         araKatman = []
 
     print(len(katman2), len(katman))
+
+
     for k in katman[-1]:
 
         if([k[0],k[1]] == [0,0]):
@@ -76,11 +59,15 @@ def birlestir(dizi,katman):
             ilkPath.append(k[2])
 
 
+
+    print("katman sayısı", len(katman2))
+
+
     for l in araDugumler:
         ara = l
-        ters.extend(reversed(ilkPath[0]))
+        ters.extend(reversed(ilkPath[count]))
         path.extend(ters)
-
+        count = count + 1
         print(sayac3 , "sayac")
         sayac3 = sayac3 + 1
 
@@ -206,7 +193,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     img2 = cv2.imread("res.png",1)
     #img2 = cv2.imread("ilk.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
- #   img2 = cv2.imread("bes.jpeg", 1)
+    #img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -282,7 +269,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
     state = True
     backPath[-1].extend([[i,j]])
     dugum = []
-
+    count = 0
 
     dizi= [[0,0],[0,0]]  # burada hata olabilir...  burada en son 3 eleman eklemede sıkıntı çıkarıyor ondan böyle 2 tane 0-0 dizisi atadın  ----> Hacı burada boş küme ile başlattım. return evresinden önce o elemanı silmelisin
     deg = 0
@@ -333,7 +320,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
         if ([i, j] in end):  # dugum == yon
 
             print(
-                "umulur ki doğru yolu bulasın...")  # burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
+                "umulur ki doğru yolu bulasın... ")  # burada ileriyi kontrol edicek kodu yazmalısın  bitiş noktasını burda kıyasla eğer eşitse doğru yolu bulduğun umulur
             dizi.append([i, j])
             dizi.pop(0)
             dizi.pop(0)
@@ -357,7 +344,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
 
 
-            filtreDugum = dugumFiltre(i,j,dugum)
+            filtreDugum = dugumFiltre(i,j,dugum) #  filtreDugum2 == backPath için dügüm
 
             if(len(filtreDugum) > 1):
 
@@ -372,7 +359,7 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
                 for k in range(len(dugum)):
 
-                    dugum[k] = dugum[k] + [dizi]
+                    dugum[k] = dugum[k] + [dizi] # buranın filtre dugum olası lazım değil mi?
 
                    # k = k + dizi
 
@@ -489,6 +476,17 @@ def dugumNoktalari(x1,y1,dugum):
 
 
 
+def noDuplicateValue(list):
+
+
+
+    s = []
+    for i in list:
+        if i not in s:
+            s.append(i)
+
+    return s
+
 def dugumFiltre2(y,x,dugum):
 
     dizi = komsulukSaptama(y,x,dugum)
@@ -510,6 +508,8 @@ def dugumFiltre2(y,x,dugum):
 
                 gurultu.append([i[0],i[1]])
 
+
+    gurultu = noDuplicateValue(gurultu)
     for i in range(len(dizi)):
 
         dizi[i].pop(2)
@@ -522,10 +522,13 @@ def dugumFiltre2(y,x,dugum):
 
     return dizi
 
+
+
 def dugumFiltre(i1,j1,dugum):
 
 
     dizi = []
+
     resDizi = []
     res2Dizi = []
 
@@ -563,7 +566,6 @@ def dugumFiltre(i1,j1,dugum):
 
     elif(res > 1 or res2 > 1 or (res == 1 and res2 == 1)):
 
-        #dizi = dugum[:]
 
         dizi = dugumFiltre2(i1,j1,dugum)
         kopru = 1
@@ -593,7 +595,6 @@ def dugumFiltre(i1,j1,dugum):
             elif ([i1 -1, j1] == n):  # ----> 6
 
                 dizi.append(n)
-
 
 
     return dizi
@@ -670,7 +671,7 @@ print("backPoint : " ,a)"""
 
 
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
+sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
@@ -678,9 +679,26 @@ print("backPoint : " ,a)"""
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
 
 
-sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
+#sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
 #sıralıSonuc([80,131],[[60,69]],[[[80,131],[81,131]]],thn) # bes.jpeg
+
+#sıralıSonuc([76,119],[[60,69]],[[[76,119],[76,118]]],thn) # bes.jpeg
+
+
+#sıralıSonuc([82,113],[[60,69]],[[[82,113],[82,114]]],thn) # bes.jpeg
+
+#sıralıSonuc([115,147],[[52,115]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
+
+#sıralıSonuc([115,147],[[63,72]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
+
+#sıralıSonuc([85,117],[[49,52]],[[[85,117],[86,117]]],thn) # bes.jpeg
+
+
+#sıralıSonuc([89,123],[[60,69]],[[[89,123],[89,124]]],thn) # bes.jpeg # 2. hata
+
+
+#sıralıSonuc([95,130],[[60,69]],[[[95,130],[95,129]]],thn) # bes.jpeg  # hata 1.
 
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)

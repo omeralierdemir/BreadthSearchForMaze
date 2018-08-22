@@ -65,3 +65,11 @@ kare dugumlerde backPath ile önüne geçmeye çalıştın. Bugu tüm dügüm no
 
 Hacı sonlu aramada lastDugumden önce path ekleyince düzgün eklemeyince yanlış çalışıyor. eğer eklersen tüm düğümleri katman -1 şeklinde ekliyor. Dikkat etmelisin sonradan tekrar denemelisin -----------> -
 
+BackPath a başlangıç noktası yani ilk düğüm noktası ekleniyor mu diye kontrol et ----------------> -
+
+
+----------------------------------------------------------------------------------------- 22 Ağustos 2018
+
+bes.jpeg fotografı için dügümFiltre2() metodu eklendi. çaışması uzun sürüyor. Eklediğin BackPath i bir katman eksik ekliyorsun büyük ihtimalle kontrol etmen lazım (9 Agustos 2. madde)
+dugumFiltre2() metodundan gelen dugum noktalarını backPath e ekliyorsun bunun yerine tüm dügümleri (o anki tüm komuşulukları )eklemeye kalkarsan çıkan katman ve
+çözüm sayısı azalır böylece çözümün hızlanması beklenebilir. -------------------------> - (önem derecesi -----> 3 -------------> aracın başlangıca gitmesini sağlayacak koddan sonra bakmalısın)
