@@ -15,11 +15,11 @@ print(len(img[0]), len(img[1]),img.shape)
 thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 
-def birlestir(dizi,katman):
+def birlestir(dizi,katman,sadeKatman):
 
     state = True
     count2 = 0
-    deg = 0
+
     path = []
     dugumKordinatları = []
     dugumKordinatlarıs = []
@@ -29,16 +29,14 @@ def birlestir(dizi,katman):
     araDugumler = []
     ilkPath = []
     araKatman = []
-    araKatman2 = []
+
     katman2 = []
-    sayac2 = 0
     sayac3 = 0
     count = 0
+    kopruDegerler = []
+    kopruKatman = []
 
-    ara = katman[-1][-1][2][0]# 0-0 üserindeki düğüm noktası
-
-    koordinat = dizi[-1][-1][-1]  # path in [0,0] noktasına erişecek yukarıya kadar gidecek ondan böyle silme doğru bu :) yani büyük ihtimalle :D
-    #path.extend(katman[-1][-1][2])
+    print(len(sadeKatman), "sade katman")
     for a1 in katman:
         for a2 in a1:
 
@@ -87,8 +85,8 @@ def birlestir(dizi,katman):
                     katman2[i][j][3] = 1
 
                     path.extend(reversed(katman2[i][j][2]))
+                    kopruDegerler.append(katman2[i][j][2][-1])
 
-                    dugumKordinatları.append([katman2[i][j][0], katman2[i][j][1]])
                     break # fazladan ekliyorsun büyük ihtimalle burdaki ara katmandan kasıt 1 katman seviyesindeki tüm dügümler.
 
 
@@ -110,16 +108,16 @@ def birlestir(dizi,katman):
 
                         path.extend(reversed(katman2[i][j][2]))
 
-                        dugumKordinatları.append([katman2[i][j][0], katman2[i][j][1]])
+                        kopruDegerler.append(katman2[i][j][2][-1])
 
                         break
 
 
+
             state = True
+        kopruKatman.append(kopruDegerler)
+        kopruDegerler = []
 
-
-
-        dugumKordinatlarıs.append(dugumKordinatları)
         paths.append(path)
         path = []
         dugumKordinatları = []
@@ -130,8 +128,8 @@ def birlestir(dizi,katman):
 
     sayac.sort()
 
-
-    return dugumKordinatları,paths[sayac[0][1]]
+    yonSaptama(kopruKatman[sayac[0][1]],sadeKatman)
+    return dugumKordinatları,paths[sayac[0][1]] # paths[sayac[0][1] en kısa yolu verir (countla ilişkili dikkat et)
 
 
 def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşmazlığı var kontrol et
@@ -145,6 +143,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     backDugum = []
     sayac = []
     katman = []
+    sadeKatman = []
     while(len(dugumler)>0):
 
 
@@ -163,6 +162,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
             if ([i[0], i[1]] != [-1, -1]):
                 dugumKoordinat.append([i[0], i[1]])  # [-1,-1] olan düğümler filtrelendi ve bu değer olmayan düğümler yani koordinatlar bulunuyor
 
+        sadeKatman.append(dugumKoordinat)
         lastDugum.extend(dugumKoordinat)
         sayac.extend(dugumler)  # append maybe...  checP ==1 ise dugum --> 0-0 olanı bul birleştirme algoritmasını çağır. breakleye  bilirsin
 
@@ -187,7 +187,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
 
-    dugum,path = birlestir(sayac,katman)
+    dugum,path = birlestir(sayac,katman,sadeKatman)
 
    # img2 = cv2.imread("6.png",1)
     img2 = cv2.imread("res.png",1)
@@ -489,7 +489,7 @@ def noDuplicateValue(list):
 
 def dugumFiltre2(y,x,dugum):
 
-    dizi = komsulukSaptama(y,x,dugum)
+    dizi = komsulukSaptama([y,x],dugum)
 
     gurultu = []
     for i in dizi:
@@ -600,53 +600,73 @@ def dugumFiltre(i1,j1,dugum):
     return dizi
 
 
+def yonSaptama(kopruDegerleri,katman):
 
 
-def komsulukSaptama(y,x,dugum):
+    cıkısYonu = []
+    katman.pop(-1)
 
-    i,j = y,x
+    for i in range(len(katman)-1,-1,-1):
+
+
+
+       cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri))-i-1],katman[i]))
+
+
+
+
+
+
+
+
+def komsulukSaptama(koordinat,dugum):
+
+    i,j = koordinat
     yon = []
 
     for k in range(len(dugum)):
 
-        if ([i,j + 1] == dugum[k]):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+        araDeger = [dugum[k][0],dugum[k][1]]
+
+
+        if ([i,j + 1] == araDeger):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
             yon.append(0)
 
             dugum[k].append(0)
             kopru = 0
 
-        elif ([i + 1,j + 1] == dugum[k]):
+        elif ([i + 1,j + 1] == araDeger):
             yon.append(1)
             dugum[k].append(1)
             kopru = 1
 
-        elif ([i + 1,j] == dugum[k]):
+        elif ([i + 1,j] == araDeger):
             yon.append(2)
             dugum[k].append(2)
             kopru = 2
 
-        elif ([i + 1,j - 1] == dugum[k]):
+        elif ([i + 1,j - 1] == araDeger):
             yon.append(3)
             dugum[k].append(3)
             kopru = 3
 
-        elif ([i,j - 1] == dugum[k]):
+        elif ([i,j - 1] == araDeger):
             yon.append(4)
             dugum[k].append(4)
             kopru = 4
 
-        elif ([i - 1,j - 1] == dugum[k]):
+        elif ([i - 1,j - 1] == araDeger):
             yon.append(5)
             dugum[k].append(5)
             kopru = 5
 
-        elif ([i - 1,j] == dugum[k]):
+        elif ([i - 1,j] == araDeger):
             yon.append(6)
 
             dugum[k].append(6)# duvgum değikeninin adını yon olarak değiştir.
             kopru = 6
 
-        elif ([i - 1,j + 1] == dugum[k]):  # buralara dikkat et ve 255 değerine de
+        elif ([i - 1,j + 1] == araDeger):  # buralara dikkat et ve 255 değerine de
 
             yon.append(7)
             dugum[k].append(7)
