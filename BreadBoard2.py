@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 
 
-img =  cv2.imread("bes.jpeg" , 0)
-#img = cv2.imread("re.png" , 0)
+#img =  cv2.imread("bes.jpeg" , 0)
+img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
-#img = cv2.imread("re.png", 0)
+#img = cv2.imread("dort.png", 0)
 #img = cv2.imread("ilk.png",0)
 print(len(img[0]), len(img[1]),img.shape)
 #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -189,11 +189,11 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
     dugum,path = birlestir(sayac,katman,sadeKatman)
 
-   # img2 = cv2.imread("6.png",1)
-  #  img2 = cv2.imread("res.png",1)
+    #img2 = cv2.imread("dort.png",1)
+    img2 = cv2.imread("res.png",1)
     #img2 = cv2.imread("ilk.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
-    img2 = cv2.imread("bes.jpeg", 1)
+    #img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -279,40 +279,39 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
         yon = []
 
-        if (img[i][j + 1] == 255 and [i,j+1] not in backPath[-1]): # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+        if (img[i - 1][j + 1] == 255 and [i-1,j+1] not in backPath[-1]):  # buralara dikkat et ve 255 değerine de
+
             yon.append(0)
             kopru = 0
 
-        if (img[i + 1][j + 1] == 255 and [i+1,j+1] not in backPath[-1]):
+        if (img[i][j + 1] == 255 and [i,j+1] not in backPath[-1]): # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
             yon.append(1)
             kopru = 1
 
-        if (img[i + 1][j] == 255 and [i+1,j] not in backPath[-1]):
+        if (img[i + 1][j + 1] == 255 and [i+1,j+1] not in backPath[-1]):
             yon.append(2)
             kopru = 2
 
-
-        if (img[i + 1][j - 1] == 255 and [i+1,j-1] not in backPath[-1]):
+        if (img[i + 1][j] == 255 and [i+1,j] not in backPath[-1]):
             yon.append(3)
             kopru = 3
 
-        if (img[i][j - 1] == 255 and [i,j-1] not in backPath[-1]):
+
+        if (img[i + 1][j - 1] == 255 and [i+1,j-1] not in backPath[-1]):
             yon.append(4)
             kopru = 4
 
-        if (img[i - 1][j - 1] == 255 and [i-1,j-1] not in backPath[-1]):
+        if (img[i][j - 1] == 255 and [i,j-1] not in backPath[-1]):
             yon.append(5)
             kopru = 5
 
-        if (img[i - 1][j] == 255 and [i-1,j] not in backPath[-1]):
-            yon.append(6)  #duvgum değikeninin adını yon olarak değiştir.
+        if (img[i - 1][j - 1] == 255 and [i-1,j-1] not in backPath[-1]):
+            yon.append(6)
             kopru = 6
 
-        if (img[i - 1][j + 1] == 255 and [i-1,j+1] not in backPath[-1]):  # buralara dikkat et ve 255 değerine de
-
-            yon.append(7)
+        if (img[i - 1][j] == 255 and [i-1,j] not in backPath[-1]):
+            yon.append(7)  #duvgum değikeninin adını yon olarak değiştir.
             kopru = 7
-
 
 
 
@@ -433,44 +432,55 @@ def dugumNoktalari(x1,y1,dugum):
         x,y = x1,y1
         if (i == 0):
 
+            x, y = x - 1, y + 1
+            deger.append([x, y])
+
+
+
+        elif (i == 1):
+
             x, y = x, y + 1
 
             deger.append([x, y])
 
-        elif (i == 1):
+
+
+        elif (i == 2):
 
             x, y = x + 1, y + 1
             deger.append([x, y])
 
-        elif (i == 2):
 
+
+        elif (i == 3):
             x, y = x + 1, y
             deger.append([x, y])
 
-        elif (i == 3):
 
+
+        elif (i == 4):
             x, y = x + 1, y - 1
             deger.append([x, y])
 
-        elif (i == 4):
 
+
+        elif (i == 5):
             x, y = x, y - 1
             deger.append([x, y])
 
-        elif (i == 5):
 
+        elif (i == 6):
             x, y = x - 1, y - 1
             deger.append([x, y])
 
-        elif (i == 6):
+
+        elif (i == 7):
+
 
             x, y = x - 1, y
             deger.append([x, y])
 
-        elif (i == 7):
 
-            x, y = x - 1, y + 1
-            deger.append([x, y])
 
     return deger
 
@@ -500,11 +510,11 @@ def dugumFiltre2(y,x,dugum):
             y = abs(i[0] - j[0])
             x = abs(i[1] - j[1])
 
-            if([y,x] == [1,0] and i[2] in [1,3,5,7]):
+            if([y,x] == [1,0] and i[2] in [0,2,4,6]):
 
                 gurultu.append([i[0],i[1]])
 
-            elif([y,x] == [0,1] and i[2] in [1,3,5,7]):
+            elif([y,x] == [0,1] and i[2] in [0,2,4,6]):
 
                 gurultu.append([i[0],i[1]])
 
@@ -600,6 +610,54 @@ def dugumFiltre(i1,j1,dugum):
     return dizi
 
 
+def dugumSonrası(dugum):
+
+    for k in dugum:
+
+        i,j = k
+        for k in range(5):
+
+            yon = []
+            backPath[]
+
+            if (thn[i - 1][j + 1] == 255 and [i - 1, j + 1] not in backPath[
+                -1]):  # buralara dikkat et ve 255 değerine de
+
+                yon.append(0)
+                kopru = 0
+
+            if (thn[i][j + 1] == 255 and [i, j + 1] not in backPath[
+                -1]):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+                yon.append(1)
+                kopru = 1
+
+            if (thn[i + 1][j + 1] == 255 and [i + 1, j + 1] not in backPath[-1]):
+                yon.append(2)
+                kopru = 2
+
+            if (thn[i + 1][j] == 255 and [i + 1, j] not in backPath[-1]):
+                yon.append(3)
+                kopru = 3
+
+            if (thn[i + 1][j - 1] == 255 and [i + 1, j - 1] not in backPath[-1]):
+                yon.append(4)
+                kopru = 4
+
+            if (thn[i][j - 1] == 255 and [i, j - 1] not in backPath[-1]):
+                yon.append(5)
+                kopru = 5
+
+            if (thn[i - 1][j - 1] == 255 and [i - 1, j - 1] not in backPath[-1]):
+                yon.append(6)
+                kopru = 6
+
+            if (thn[i - 1][j] == 255 and [i - 1, j] not in backPath[-1]):
+                yon.append(7)  # duvgum değikeninin adını yon olarak değiştir.
+                kopru = 7
+
+
+
+
 def yonSaptama(kopruDegerleri,katman):
 
 
@@ -611,7 +669,7 @@ def yonSaptama(kopruDegerleri,katman):
 
 
        cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri))-i-1],katman[i]))
-
+        
 
 
 
@@ -629,48 +687,50 @@ def komsulukSaptama(koordinat,dugum):
         araDeger = [dugum[k][0],dugum[k][1]]
 
 
-        if ([i,j + 1] == araDeger):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
-            yon.append(0)
 
+        if ([i - 1,j + 1] == araDeger):  # buralara dikkat et ve 255 değerine de
+
+            yon.append(0)
             dugum[k].append(0)
             kopru = 0
-
-        elif ([i + 1,j + 1] == araDeger):
+        elif ([i,j + 1] == araDeger):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
             yon.append(1)
+
             dugum[k].append(1)
             kopru = 1
 
-        elif ([i + 1,j] == araDeger):
+        elif ([i + 1,j + 1] == araDeger):
             yon.append(2)
             dugum[k].append(2)
             kopru = 2
 
-        elif ([i + 1,j - 1] == araDeger):
+        elif ([i + 1,j] == araDeger):
             yon.append(3)
             dugum[k].append(3)
             kopru = 3
 
-        elif ([i,j - 1] == araDeger):
+        elif ([i + 1,j - 1] == araDeger):
             yon.append(4)
             dugum[k].append(4)
             kopru = 4
 
-        elif ([i - 1,j - 1] == araDeger):
+        elif ([i,j - 1] == araDeger):
             yon.append(5)
             dugum[k].append(5)
             kopru = 5
 
-        elif ([i - 1,j] == araDeger):
+        elif ([i - 1,j - 1] == araDeger):
             yon.append(6)
-
-            dugum[k].append(6)# duvgum değikeninin adını yon olarak değiştir.
+            dugum[k].append(6)
             kopru = 6
 
-        elif ([i - 1,j + 1] == araDeger):  # buralara dikkat et ve 255 değerine de
-
+        elif ([i - 1,j] == araDeger):
             yon.append(7)
-            dugum[k].append(7)
+
+            dugum[k].append(7)# duvgum değikeninin adını yon olarak değiştir.
             kopru = 7
+
+
 
     return dugum
 
@@ -691,12 +751,13 @@ print("backPoint : " ,a)"""
 
 
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
+sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
 #sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
 #sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
+
 
 #sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
 #sıralıSonuc([61,57],[[69,79]],[[[61,57],[62,57]]],thn) # bes.jpeg
@@ -709,11 +770,9 @@ print("backPoint : " ,a)"""
 
 #sıralıSonuc([115,147],[[52,115]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
 
-sıralıSonuc([115,147],[[63,72]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
+#sıralıSonuc([115,147],[[63,72]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
 
 #sıralıSonuc([85,117],[[49,52]],[[[85,117],[86,117]]],thn) # bes.jpeg
-
-#sıralıSonuc([135,160],[[63,72]],[[[135,161],[135,160]]],thn) # bes.jpeg
 
 
 #sıralıSonuc([89,123],[[60,69]],[[[89,123],[89,124]]],thn) # bes.jpeg # 2. hata
