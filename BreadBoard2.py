@@ -662,14 +662,21 @@ def yonSaptama(kopruDegerleri,katman):
 
 
     cıkısYonu = []
+    backDugum = []
     katman.pop(-1)
 
     for i in range(len(katman)-1,-1,-1):
 
 
+        cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri)) - i - 1], katman[i]))
 
-       cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri))-i-1],katman[i]))
-        
+        kopruDegerleri[(len(kopruDegerleri)) - i - 1]
+
+
+
+
+
+
 
 
 
