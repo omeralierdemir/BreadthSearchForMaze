@@ -12,8 +12,10 @@ print(len(img[0]), len(img[1]),img.shape)
 
 
 
-thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
+
+
+thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
 def birlestir(dizi,katman,sadeKatman):
 
@@ -279,37 +281,37 @@ def komsuluk(y,x,end,backPath,img):  # unutma i == y ekseni  j == x ekseni
 
         yon = []
 
-        if (img[i - 1][j + 1] == 255 and [i-1,j+1] not in backPath[-1]):  # buralara dikkat et ve 255 değerine de
+        if (img[i + 1][j - 1] == 255 and [i + 1,j - 1] not in backPath[-1]):  # buralara dikkat et ve 255 değerine de
 
             yon.append(0)
             kopru = 0
 
-        if (img[i][j + 1] == 255 and [i,j+1] not in backPath[-1]): # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+        if (img[i][j - 1] == 255 and [i ,j - 1] not in backPath[-1]): # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
             yon.append(1)
             kopru = 1
 
-        if (img[i + 1][j + 1] == 255 and [i+1,j+1] not in backPath[-1]):
+        if (img[i - 1][j - 1] == 255 and [i - 1,j - 1] not in backPath[-1]):
             yon.append(2)
             kopru = 2
 
-        if (img[i + 1][j] == 255 and [i+1,j] not in backPath[-1]):
+        if (img[i - 1][j] == 255 and [i - 1,j] not in backPath[-1]):
             yon.append(3)
             kopru = 3
 
 
-        if (img[i + 1][j - 1] == 255 and [i+1,j-1] not in backPath[-1]):
+        if (img[i - 1][j + 1] == 255 and [i - 1,j + 1] not in backPath[-1]):
             yon.append(4)
             kopru = 4
 
-        if (img[i][j - 1] == 255 and [i,j-1] not in backPath[-1]):
+        if (img[i][j + 1] == 255 and [i,j + 1] not in backPath[-1]):
             yon.append(5)
             kopru = 5
 
-        if (img[i - 1][j - 1] == 255 and [i-1,j-1] not in backPath[-1]):
+        if (img[i + 1][j + 1] == 255 and [i + 1,j + 1] not in backPath[-1]):
             yon.append(6)
             kopru = 6
 
-        if (img[i - 1][j] == 255 and [i-1,j] not in backPath[-1]):
+        if (img[i + 1][j] == 255 and [i + 1,j] not in backPath[-1]):
             yon.append(7)  #duvgum değikeninin adını yon olarak değiştir.
             kopru = 7
 
@@ -432,14 +434,14 @@ def dugumNoktalari(x1,y1,dugum):
         x,y = x1,y1
         if (i == 0):
 
-            x, y = x - 1, y + 1
+            x, y = x + 1, y - 1
             deger.append([x, y])
 
 
 
         elif (i == 1):
 
-            x, y = x, y + 1
+            x, y = x, y - 1
 
             deger.append([x, y])
 
@@ -447,37 +449,37 @@ def dugumNoktalari(x1,y1,dugum):
 
         elif (i == 2):
 
-            x, y = x + 1, y + 1
+            x, y = x - 1, y - 1
             deger.append([x, y])
 
 
 
         elif (i == 3):
-            x, y = x + 1, y
+            x, y = x - 1, y
             deger.append([x, y])
 
 
 
         elif (i == 4):
-            x, y = x + 1, y - 1
+            x, y = x - 1, y + 1
             deger.append([x, y])
 
 
 
         elif (i == 5):
-            x, y = x, y - 1
+            x, y = x, y + 1
             deger.append([x, y])
 
 
         elif (i == 6):
-            x, y = x - 1, y - 1
+            x, y = x + 1, y + 1
             deger.append([x, y])
 
 
         elif (i == 7):
 
 
-            x, y = x - 1, y
+            x, y = x + 1, y
             deger.append([x, y])
 
 
@@ -584,25 +586,25 @@ def dugumFiltre(i1,j1,dugum):
 
 
 
-    if(kopru == 0):
+    if(kopru == 0):# sıraları süzenlersin sonra
 
         for n in dugum:
 
-            if ([i1, j1 + 1] == n):  # ----> 0
+            if ([i1, j1 + 1] == n):  # ----> 5
 
                 dizi.append(n)
 
 
-            elif([i1 + 1,j1] == n):  # ----> 2
+            elif([i1 + 1,j1] == n):  # ----> 7
 
                 dizi.append(n)
 
 
-            elif ([i1, j1 - 1] == n): # ----> 4
+            elif ([i1, j1 - 1] == n): # ----> 1
 
                 dizi.append(n)
 
-            elif ([i1 -1, j1] == n):  # ----> 6
+            elif ([i1 -1, j1] == n):  # ----> 3
 
                 dizi.append(n)
 
@@ -618,7 +620,7 @@ def dugumSonrası(dugum):
         for k in range(5):
 
             yon = []
-            backPath[]
+            backPath=[]
 
             if (thn[i - 1][j + 1] == 255 and [i - 1, j + 1] not in backPath[
                 -1]):  # buralara dikkat et ve 255 değerine de
@@ -670,7 +672,7 @@ def yonSaptama(kopruDegerleri,katman):
 
         cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri)) - i - 1], katman[i]))
 
-        kopruDegerleri[(len(kopruDegerleri)) - i - 1]
+
 
 
 
@@ -695,43 +697,43 @@ def komsulukSaptama(koordinat,dugum):
 
 
 
-        if ([i - 1,j + 1] == araDeger):  # buralara dikkat et ve 255 değerine de
+        if ([i + 1,j - 1] == araDeger):  # buralara dikkat et ve 255 değerine de
 
             yon.append(0)
             dugum[k].append(0)
             kopru = 0
-        elif ([i,j + 1] == araDeger):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
+        elif ([i,j - 1] == araDeger):  # burda bug var i,j dizinin ilk elamanını 0-0 yapıyorum ama etraflıca düşün
             yon.append(1)
 
             dugum[k].append(1)
             kopru = 1
 
-        elif ([i + 1,j + 1] == araDeger):
+        elif ([i - 1,j - 1] == araDeger):
             yon.append(2)
             dugum[k].append(2)
             kopru = 2
 
-        elif ([i + 1,j] == araDeger):
+        elif ([i - 1,j] == araDeger):
             yon.append(3)
             dugum[k].append(3)
             kopru = 3
 
-        elif ([i + 1,j - 1] == araDeger):
+        elif ([i - 1,j + 1] == araDeger):
             yon.append(4)
             dugum[k].append(4)
             kopru = 4
 
-        elif ([i,j - 1] == araDeger):
+        elif ([i,j + 1] == araDeger):
             yon.append(5)
             dugum[k].append(5)
             kopru = 5
 
-        elif ([i - 1,j - 1] == araDeger):
+        elif ([i + 1,j + 1] == araDeger):
             yon.append(6)
             dugum[k].append(6)
             kopru = 6
 
-        elif ([i - 1,j] == araDeger):
+        elif ([i + 1,j] == araDeger):
             yon.append(7)
 
             dugum[k].append(7)# duvgum değikeninin adını yon olarak değiştir.

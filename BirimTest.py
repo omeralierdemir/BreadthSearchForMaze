@@ -1,9 +1,10 @@
+
 import cv2
-import numpy as np
+import numpy
 
 
-img =  cv2.imread("bes.jpeg" , 0)
-#img = cv2.imread("re.png" , 0)
+#img =  cv2.imread("bes.jpeg" , 0)
+img = cv2.imread("re.png" , 0)
 #img = cv2.imread("6.png" , 0)
 #img = cv2.imread("re.png", 0)
 #img = cv2.imread("ilk.png",0)
@@ -190,10 +191,10 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
     dugum,path = birlestir(sayac,katman,sadeKatman)
 
    # img2 = cv2.imread("6.png",1)
-  #  img2 = cv2.imread("res.png",1)
+    img2 = cv2.imread("res.png",1)
     #img2 = cv2.imread("ilk.png", 1)
     #img2 = cv2.imread("gercek.png", 1)
-    img2 = cv2.imread("bes.jpeg", 1)
+  #  img2 = cv2.imread("bes.jpeg", 1)
 
 
 
@@ -691,7 +692,7 @@ print("backPoint : " ,a)"""
 
 
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-#sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
+sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
@@ -709,7 +710,7 @@ print("backPoint : " ,a)"""
 
 #sıralıSonuc([115,147],[[52,115]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
 
-sıralıSonuc([115,147],[[63,72]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
+#sıralıSonuc([115,147],[[63,72]],[[[115,147],[115,148]]],thn) # bes.jpeg # hatalı nokta tespiti
 
 #sıralıSonuc([85,117],[[49,52]],[[[85,117],[86,117]]],thn) # bes.jpeg
 
