@@ -17,6 +17,50 @@ print(len(img[0]), len(img[1]),img.shape)
 
 thn = cv2.ximgproc.thinning(img,None,cv2.ximgproc.THINNING_ZHANGSUEN)
 
+
+
+def thin_saglamlastirma_3(res):
+
+    [r,c] = res.shape
+    res_2 = res
+
+    for i in range(2,r-1):
+        for j in range(2, c-1):
+            if(res_2[i][j]==255):
+                k1 =int(res_2[i, j - 1] / 255)
+                k2 = int(res_2[i - 1, j] / 255)
+                k3 = int(res_2[i, j + 1] / 255)
+                k4 = int(res_2[i + 1, j] / 255)
+                K = [k1, k2, k3, k4]
+
+                ka = int(res_2[i - 1, j - 1] / 255)
+                kb = int(res_2[i - 1, j + 1] / 255)
+                kc = int(res_2[i + 1, j + 1] / 255)
+                kd = int(res_2[i + 1, j - 1] / 255)
+                K2 = [ka, kb, kc, kd]
+
+                kx = [k1, kd, k4, kc, k3]
+
+
+                if kx == [0, 1, 0, 0, 0]:
+                    res_2[i + 1, j] = 255
+                elif kx == [0,0,0,1,0]:
+                    res_2[i+1, j] = 255
+                elif kx == [0, 1, 0, 1, 0]:
+                    res_2[i + 1, j] = 255
+                elif kx == [0, 1, 0, 1, 1]:
+                    res_2[i, j-1] = 255
+                elif kx == [1, 1, 0, 1, 0]:
+                    res_2[i, j + 1] = 255
+                elif kx == [1, 0, 0, 1, 0]:
+                    res_2[i + 1, j] = 255
+                elif kx == [0, 1, 0, 0, 1]:
+                    res_2[i + 1, j] = 255
+
+
+
+    return res_2
+
 def birlestir(dizi,katman,sadeKatman):
 
     state = True
@@ -131,7 +175,7 @@ def birlestir(dizi,katman,sadeKatman):
     sayac.sort()
 
     yonSaptama(kopruKatman[sayac[0][1]],sadeKatman)
-    return dugumKordinatları,paths[sayac[0][1]] # paths[sayac[0][1] en kısa yolu verir (countla ilişkili dikkat et)
+    return kopruKatman[sayac[0][1]],paths[sayac[0][1]] # paths[sayac[0][1] en kısa yolu verir (countla ilişkili dikkat et)
 
 
 def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşmazlığı var kontrol et
@@ -212,7 +256,7 @@ def sıralıSonuc(startP,end,backPath,img): # ab bitiş noktalrı arguman uyuşm
 
 
 
-
+    return dugum ,path
 
 
 # bu metodun amacı dugumlerin yanına ek olarak elenmiş olan path ile birlikte tüm dügümleri tek dizide toplamaktır. path döndermek gerekesiz olabilir ilerleyen zamanlarda temizlemelisin
@@ -736,6 +780,7 @@ def komsulukSaptama(koordinat,dugum):
         elif ([i + 1,j] == araDeger):
             yon.append(7)
 
+
             dugum[k].append(7)# duvgum değikeninin adını yon olarak değiştir.
             kopru = 7
 
@@ -758,14 +803,15 @@ print("point : " ,z)
 
 print("backPoint : " ,a)"""
 
-
+thnn = thin_saglamlastirma_3(thn)
 #sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
+dugum,path=sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
+print()
 
 #sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 #sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
-#sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
-#sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thn) # 7.png
+#dugum,path = sıralıSonuc([214,218],[[101,101]],[[[214,218],[214,219]]],thn) # 6.png
+#dugum,path=sıralıSonuc([4,120],[[160,120]],[[[3,120],[4,120]]],thnn) # 7.png
 
 
 #sıralıSonuc([116,124],[[69,79]],[[[116,124],[116,125]]],thn) # bes.jpeg
@@ -792,25 +838,122 @@ sıralıSonuc([108,21],[[926,1013]],[[[108,20],[108,21]]],thn) # reall
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 #sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
-#sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
+
+#dugum,path = sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thnn) # dort.png
 
 #sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
 #sıralıSonuc([114,57],[[1012,933]],[[[114,56],[144,57]]],thn)
 
-"""print()
-print()
-print()
-a,b,c,z = sıralıArama([[42,28]],[[320,28]],[[[42,28],[41,28]]],thn)
-print("path:", b)
-#print("sadece dugumler : " , y[0][0], y[0][1] ,  " - ", y[1][0], y[1][1])
 
-print("sadece dugumler : " )
-for i in a:
-    print(i[0],i[1])
-    print()
-print("dugumler : " )
-print()
-for i in a:
-    print(i)
-    print()
-print("backPoint : " ,z)"""
+dugum2= dugum[::-1]
+path=path[::-1]
+aa,bb=np.shape(img)
+print(aa,bb)
+new_img = np.zeros((aa,bb,3),dtype=np.uint8)
+
+new_img[:,:,0] = thn[:][:]
+new_img[:,:,1] = thn[:][:]
+new_img[:,:,2] = thn[:][:]
+print("omerrrrrr")
+
+
+
+for ii in dugum2:
+    print(ii)
+    new_img[ii[0], ii[1], 2] = 255
+    new_img[ii[0], ii[1], 0] = 0
+    new_img[ii[0], ii[1], 1] = 0
+
+
+
+#cv2.imshow("omer",thn)
+#cv2.waitKey(0)
+
+#thn2 = cv2.ximgproc.thinning(thn,None,cv2.ximgproc.THINNING_ZHANGSUEN)
+
+
+
+""""
+[szY,szX]=np.shape(thn)
+
+thn2=np.zeros((szY,szX))
+print(thn2.shape,thn2)
+for y in range(szY):
+    for x in range(szX):
+        if thn[y,x]  == 255:
+            thn2=[y,x] == 1
+
+"""
+
+
+
+for ii in dugum2:
+    index = path.index(ii)
+    suanKonum=path[index]
+    oncekiKonum = path[index-1]
+    sonrakiKonum = path[index+1]
+    print("suan",suanKonum,"onceki ",oncekiKonum,"sonraki",sonrakiKonum)
+
+    #   k2
+    # k1 x k3
+    #   k4
+
+
+
+    k1 = int(thn[ii[0], ii[1]-1] /255)
+    k2 = int(thn[ii[0]-1, ii[1]] /255)
+    k3 = int(thn[ii[0], ii[1]+1] /255)
+    k4 = int(thn[ii[0]+1, ii[1]] /255)
+
+    komsu=[k1,k2,k3,k4]
+    print(komsu,sum(komsu))
+
+    # 0 en sol 1 en sag 2 duz demektir
+    if sum(komsu) < 5:
+
+        y,x = suanKonum
+        yo,xo = oncekiKonum
+        ys,xs = sonrakiKonum
+        # asagidaki 4 if gerceklesirse thin sola gitmistir kesin 0. cikistir
+        if   yo == y + 1 and xo == x and ys == y and xs == x - 1:
+            cikis = 0
+        elif yo == y and xo == x + 1 and ys == y + 1 and xs == x:
+            cikis = 0
+        elif yo == y - 1 and xo == x and ys == y and xs == x + 1:
+            cikis = 0
+        elif yo == y and xo == x - 1 and ys == y - 1 and xs == x:
+            cikis = 0
+        # asagidaki 4 if gerceklesirse thin saga donus gesindir 1. cikistir
+
+        elif yo == y and xo == x - 1 and ys == y + 1 and xs == x:
+            cikis = 1
+        elif yo == y - 1 and xo == x and ys == y and xs == x - 1:
+            cikis = 1
+        elif yo == y and xo == x + 1 and ys == y - 1 and xs == x:
+            cikis = 1
+        elif yo == y + 1 and xo == x and ys == y and xs == x + 1:
+            cikis = 1
+
+
+        else:
+            if sum(komsu) == 4: # komsluk sayisi 4 ise yani solda sagda thin var ve girilmemistir
+                                # anlasilan o ki duz gitmis
+                cikis = 2
+            else:               # sola girilmemis saga girilmemis ve komsuluk sayisi 3 ise
+                                # duz gidilmis ve tihn sagdami yoksa soldami suan bilinmemekte
+                                # thin sagdaysa 0. cikis olmali soldaysa 1. cikis olmali
+                                # asagidaki kod thin in sagdami soldami olusuna bakarak
+                                # 0 yada 1. cikis olmasina karar verir
+
+                if   yo == y and xo == x - 1 and ys == y and xs == x + 1 and thn[y-1,x] == 255:
+                    cikis = 1
+                elif yo == y - 1 and xo == x and ys == y + 1 and xs == x and thn[y,x+1] == 255:
+                    cikis = 1
+                elif yo == y and xo == x + 1 and ys == y and xs == x - 1 and thn[y+1,x] == 255:
+                    cikis = 1
+                elif yo == y + 1 and xo == x and ys == y - 1 and xs == x and thn[y,x-1] == 255:
+                    cikis = 1
+                else:
+                    cikis = 0
+
+    print(cikis)

@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 
 # img =  cv2.imread("bes.jpeg" , 0)
-img = cv2.imread("re.png", 0)
+#img = cv2.imread("re.png", 0)
 # img = cv2.imread("6.png" , 0)
-# img = cv2.imread("dort.png", 0)
+img = cv2.imread("dort.png", 0)
 # img = cv2.imread("ilk.png",0)
 print(len(img[0]), len(img[1]), img.shape)
 # gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -157,8 +157,8 @@ def sıralıSonuc(startP, end, backPath, img):  # ab bitiş noktalrı arguman uy
 
     dugum, path = birlestir(sayac, katman, sadeKatman)
 
-    # img2 = cv2.imread("dort.png",1)
-    img2 = cv2.imread("res.png", 1)
+    img2 = cv2.imread("dort.png",1)
+    #img2 = cv2.imread("res.png", 1)
     # img2 = cv2.imread("ilk.png", 1)
     # img2 = cv2.imread("gercek.png", 1)
     # img2 = cv2.imread("bes.jpeg", 1)
@@ -560,6 +560,8 @@ def yonSaptama(kopruDegerleri, katman):
 
     for i in range(len(katman) - 1, -1, -1):
         cıkısYonu.append(komsulukSaptama(kopruDegerleri[(len(kopruDegerleri)) - i - 1], katman[i]))
+    d =  noDuplicateValue(cıkısYonu)
+    print()
 
 
 def komsulukSaptama(koordinat, dugum):
@@ -630,7 +632,7 @@ print("point : " ,z)
 print("backPoint : " ,a)"""
 
 # sıralıSonuc([136,178],[[627,629]],[[[136,178],[137,179]]],thn) # oval
-sıralıSonuc([108, 21], [[926, 1013]], [[[108, 20], [108, 21]]], thn)  # reall
+#sıralıSonuc([108, 21], [[926, 1013]], [[[108, 20], [108, 21]]], thn)  # reall
 
 # sıralıSonuc([48,28],[[143,257]],[[[48,28],[47,28]]],thn) # ilk
 # sıralıSonuc([101,21],[[932,1013]],[[[101,20],[101,21]]],thn) # real
@@ -662,7 +664,7 @@ sıralıSonuc([108, 21], [[926, 1013]], [[[108, 20], [108, 21]]], thn)  # reall
 # sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn) # bes.jpeg
 # sıralıSonuc([135,164],[[69,79]],[[[135,164],[135,165]]],thn)
 
-# sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
+sıralıSonuc([5,360],[[754,397]],[[[5,360],[4,360]]],thn) # dort.png
 
 # sıralıSonuc([3,144],[[312,176]],[[[2,144],[3,144]]],thn)
 # sıralıSonuc([114,57],[[1012,933]],[[[114,56],[144,57]]],thn)
